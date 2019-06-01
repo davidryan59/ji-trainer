@@ -1,10 +1,10 @@
 {
-  "name": "ji-trainer",
+  "name": "ji-ear-trainer",
   "version": "0.0.1",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davidryan59/ji-trainer"
+    "url": "git+https://github.com/davidryan59/ji-ear-trainer"
   },
   "author": {
     "name": "David Ryan",
@@ -12,7 +12,8 @@
     "url": "https://github.com/davidryan59"
   },
   "devDependencies": {
-    "react-scripts": "^3.0.1"
+    "react-scripts": "^3.0.1",
+    "typescript": "^3.5.1"
   },
   "dependencies": {
     "ji-rcn": "^9.0.1",
