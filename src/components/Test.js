@@ -1,17 +1,27 @@
 import React from 'react'
+import { Column, Row } from 'simple-flexbox'
+
 
 import ButtonC from './ButtonC'
 import QuestionC from './QuestionC'
 
 const Test = () => (
-  <div className='Test'>
-    <p>Identify chords and intervals in Just Intonation</p>
-    <ButtonC id={'START_TEST'} label={'Start new test'} />
+  <Column className='Test' horizontal='center'>
+    <Row>
+      Identify chords and intervals in Just Intonation
+    </Row>
+    <Row>
+      <ButtonC id={'START_TEST'} label={'Start new test'} />
+    </Row>
     <QuestionC qNum='1' />
     <QuestionC qNum='2' />
-    <ButtonC id={'FINISH_TEST'} label={'Mark this test'} />
-    <p>Your test results are a score of {100} out of {100}</p>
-  </div>
+    <Row>
+      <ButtonC id={'FINISH_TEST'} label={'Mark this test'} />
+    </Row>
+    <Row>
+      Your test results are a score of {100} out of {100}
+    </Row>
+  </Column>
 )
 
 export default Test

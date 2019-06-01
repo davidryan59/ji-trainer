@@ -1,16 +1,21 @@
 import React from 'react'
+import { Column, Row } from 'simple-flexbox'
 
 import ButtonC from './ButtonC'
 import AnswerC from './AnswerC'
 
 const Question = ({ qNum }) => (
-  <div className='Question'>
-    This is question {qNum}
-    <ButtonC id={'LISTEN'} label={'Listen'} data={{qNum:qNum}} />
+  <Row className='Question' vertical='center'>
+    <Column flex='1'>
+      This is question {qNum}
+    </Column>
+    <Column flex='1'>
+      <ButtonC id={'LISTEN'} label={'Listen'} data={{qNum:qNum}} />
+    </Column>
     <AnswerC qNum={qNum} aNum='1' />
     <AnswerC qNum={qNum} aNum='2' />
     <AnswerC qNum={qNum} aNum='3' />
-  </div>
+  </Row>
 )
 
 export default Question
