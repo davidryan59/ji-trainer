@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick: e => dispatch(getActionObject(BUTTON_PRESS, {id: ownProps.id}))
+  onClick: e => dispatch(getActionObject(BUTTON_PRESS, {id: ownProps.id, ...ownProps.data}))
 })
 
 export default connect(

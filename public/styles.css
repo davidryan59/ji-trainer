@@ -1,42 +1,59 @@
 body {
   margin: 0px;
-  background-color: #E3F5C2;
+  background: #FFFFFF;
   font-family: monospace;
-  font-size: 10px;
+  font-size: 11px;
   color: #000;
   text-align: center;
 }
 
 .app {
-  margin: 5px;
-  border: 1px #BBD solid;
-  border-radius: 5px;
-  background: #E6F9E2;
-  padding: 7px;
+  margin: 10px;
+  padding: 10px;
+  background: #F7F7F7;
+  border: 2px #FBFBFB solid;
+  border-radius: 12px;
 }
 
 .topline {
   font-size: 14px;
 }
 
-div {
-  margin: 2px;
-  padding: 2px;
+.StateViewer {
+  background: #EFEFEF;
+  border: 2px #F3F3F3 solid;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 9px;
 }
 
-.StateViewer {
-  background: #F5FAE2;
-  border: 1px #DBB solid;
-  border-radius: 5px;
-  padding: '5px';
-  font-family: monospace;
-  font-size: 8px;
+.Test {
+  margin: 10px 0px;
+  background: #EFEFEF;
+  border: 2px #F3F3F3 solid;
+  border-radius: 8px;
+}
+
+.Question {
+  margin: 12px;
+  padding: 6px;
+  background: #F5F5F7;
+  border: 1px #D5D5EE solid;
+  border-radius: 6px;
+}
+
+.Answer {
+  margin: 6px;
+  padding: 3px;
+  background: #EEF6DD;
+  border: 1px #DDDDBB solid;
+  border-radius: 4px;
 }
 
 button {
-  margin: 5px;
-  padding: 5px;
-  background-color: #F6F6F0;
+  margin: 0px 5px;
+  padding: 4px;
+  background: #F6F6F0;
   font-family: sans-serif;
   font-size: 12px;
   color: #222;
