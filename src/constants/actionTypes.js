@@ -1,1 +1,2 @@
 export const WINDOW_RESIZE = 'WINDOW_RESIZE'
+export const BUTTON_PRESS = 'BUTTON_PRESS'

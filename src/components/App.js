@@ -1,5 +1,6 @@
 import React from 'react'
 
+import ButtonC from './ButtonC'
 import StateViewerC from './StateViewerC'
 
 const App = () => (
@@ -9,7 +10,7 @@ const App = () => (
       Helps you identify chords and intervals in Just Intonation
       - <i>by David Ryan, 2019</i>
     </div>
-    <p>... components here</p>
+    <ButtonC id={'START'} label={'Start new test'} />
     <StateViewerC />
   </div>
 )
