@@ -3,17 +3,18 @@ import { Column, Row } from 'simple-flexbox'
 
 import ButtonC from './ButtonC'
 
-import { MARK_ANSWER } from '../constants/actionTypes'
+import { GIVE_ANSWER } from '../constants/actionTypes'
+import { chordArrayToCompoundRatio } from '../maths'
 
 
-const Answer = ({ qNum, aNum }) => (
+const Answer = ({ answer }) => (
   <Column className='Answer' flex='1'>
-    <Row>
+    <Row vertical='center'>
       <Column>
-        This is answer {aNum} to question {qNum}
+        {chordArrayToCompoundRatio(answer.chord)}
       </Column>
       <Column>
-        <ButtonC id={MARK_ANSWER} charCode={'10003'} data={{qNum:qNum,aNum:aNum}} />
+        <ButtonC id={GIVE_ANSWER} charCode={'10003'} data={{qNum:answer.qNum,aNum:answer.aNum}} />
       </Column>
     </Row>
   </Column>

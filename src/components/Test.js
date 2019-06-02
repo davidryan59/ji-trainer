@@ -7,7 +7,7 @@ import QuestionC from './QuestionC'
 import { START_TEST, FINISH_TEST } from '../constants/actionTypes'
 
 
-const Test = () => (
+const Test = ({ setup, results, questions }) => (
   <Column className='Test' horizontal='center'>
     <Row>
       Identify chords and intervals in Just Intonation
@@ -15,8 +15,12 @@ const Test = () => (
     <Row>
       <ButtonC id={START_TEST} label={'Start new test'} />
     </Row>
-    <QuestionC qNum='1' />
-    <QuestionC qNum='2' />
+    {questions.map( question =>
+      <QuestionC
+        key={question.qNum}
+        question={question}
+      />
+    )}
     <Row>
       <ButtonC id={FINISH_TEST} label={'Mark this test'} />
     </Row>

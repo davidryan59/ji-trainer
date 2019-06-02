@@ -7,17 +7,23 @@ import AnswerC from './AnswerC'
 import { LISTEN_QUESTION } from '../constants/actionTypes'
 
 
-const Question = ({ qNum }) => (
+const Question = ({ question }) => (
   <Row className='Question' vertical='center'>
     <Column flex='1'>
-      This is question {qNum}
+      {question.qNum})
     </Column>
     <Column flex='1'>
-      <ButtonC id={LISTEN_QUESTION} label={'Listen'} data={{qNum:qNum}} />
+      <ButtonC id={LISTEN_QUESTION} label={'Listen'} data={{qNum:question.qNum}} />
     </Column>
-    <AnswerC qNum={qNum} aNum='1' />
-    <AnswerC qNum={qNum} aNum='2' />
-    <AnswerC qNum={qNum} aNum='3' />
+    {question.answers.map( answer =>
+      <AnswerC
+        key={answer.aNum}
+        answer={answer}
+      />
+    )}
+    <Column flex='1'>
+      Correct answer is {question.correctAnswer}
+    </Column>
   </Row>
 )
 
