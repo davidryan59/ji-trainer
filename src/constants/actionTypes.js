@@ -1,6 +1,7 @@
 // Types
 export const WINDOW_RESIZE = 'WINDOW_RESIZE'
 export const BUTTON_PRESS = 'BUTTON_PRESS'
+export const AUDIO_ENDED = 'AUDIO_ENDED'
 
 // Subtypes
 export const START_TEST = 'START_TEST'

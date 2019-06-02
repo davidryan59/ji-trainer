@@ -9,13 +9,13 @@ import { PLAY_AUDIO } from '../constants/actionTypes'
 
 const calculateClassName = uNum => (uNum) ? 'QuestionAnswered' : 'QuestionNotAnswered'
 
-const Question = ({ question }) => (
+const Question = ({ canPlay, question }) => (
   <Row className={`Question ${calculateClassName(question.userAnswer)}`} vertical='center'>
     <Column className='QuestionNumber' flex='1'>
       Q{question.qNum}
     </Column>
     {
-      (!question.userAnswer)
+      (!question.userAnswer && canPlay)
       ?
       <Column flex='1'>
         <ButtonC id={PLAY_AUDIO} charCode={'9654'} data={{qNum:question.qNum}} />

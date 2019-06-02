@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux'
 
-import { BUTTON_PRESS, START_TEST, SELECT_ANSWER } from '../constants/actionTypes'
+import { BUTTON_PRESS, PLAY_AUDIO, AUDIO_ENDED, START_TEST, SELECT_ANSWER } from '../constants/actionTypes'
 import { getNewQuestion } from '../setup/setupReduxState'
 
-const setup = (state={}, action) => {
+const playing = (state=false, action) => {
+  if (action.type === BUTTON_PRESS && action.id === PLAY_AUDIO) return true
+  if (action.type === AUDIO_ENDED) return false
   return state
 }
 
@@ -30,7 +32,7 @@ const questions = (state=[], action) => {
 }
 
 const test = combineReducers({
-  setup,
+  playing,
   questions
 })
 
