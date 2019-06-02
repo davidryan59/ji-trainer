@@ -4,6 +4,5 @@ export const BUTTON_PRESS = 'BUTTON_PRESS'
 
 // Subtypes
 export const START_TEST = 'START_TEST'
-export const LISTEN_QUESTION = 'LISTEN_QUESTION'
-export const GIVE_ANSWER = 'GIVE_ANSWER'
-export const FINISH_TEST = 'FINISH_TEST'
+export const PLAY_AUDIO = 'PLAY_AUDIO'
+export const SELECT_ANSWER = 'SELECT_ANSWER'

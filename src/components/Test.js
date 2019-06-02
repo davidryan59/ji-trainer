@@ -4,7 +4,7 @@ import { Column, Row } from 'simple-flexbox'
 import ButtonC from './ButtonC'
 import QuestionC from './QuestionC'
 
-import { START_TEST, FINISH_TEST } from '../constants/actionTypes'
+import { START_TEST } from '../constants/actionTypes'
 
 
 const Test = ({ setup, results, questions }) => (
@@ -21,9 +21,6 @@ const Test = ({ setup, results, questions }) => (
         question={question}
       />
     )}
-    <Row>
-      <ButtonC id={FINISH_TEST} label={'Mark this test'} />
-    </Row>
     <Row>
       Your test results are a score of {100} out of {100}
     </Row>

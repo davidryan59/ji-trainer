@@ -6,26 +6,22 @@ export const getInitialWindowState = () => ({
   height: window.innerHeight  
 })
 
-export const getInitialTestState = () => {
-  console.log('Getting initial test state')
-  const result = {
-    setup: {},
-    results: {},
-    questions: []
-  }
-  const numberOfQuestions = 1 + randomIntegerUpTo(5)
-  for (let qNum=1; qNum<=numberOfQuestions; qNum++) result.questions.push(getNewQuestion({qNum}))
-  return result
-}
+// export const setupTestQuestions = () => {
+//   console.log('Setting up questions for a new test')
+//   const result = []
+//   const numberOfQuestions = 1 + randomIntegerUpTo(5)
+//   for (let qNum=1; qNum<=numberOfQuestions; qNum++) result.push(getNewQuestion(qNum))
+//   return result
+// }
 
-const getNewQuestion = ({ qNum, aCount }) => {
+export const getNewQuestion = qNum => {
   const numberOfAnswers = 1 + randomIntegerUpTo(5)
   const notesInChord = 1 + randomIntegerUpTo(5)
   const result = {
     qNum,
-    answers: [],
-    notesInChord,
-    correctAnswer: randomIntegerUpTo(numberOfAnswers)
+    userAnswer: null,
+    correctAnswer: randomIntegerUpTo(numberOfAnswers),
+    answers: []
   }
   for (let aNum=1; aNum<=numberOfAnswers; aNum++) result.answers.push(getNewAnswer({qNum, aNum, notesInChord}))
   return result
@@ -53,7 +49,7 @@ const getRandomChord = notesInChord => {
   // result.sort((a,b)=>a-b)    // With a diff, sorting not needed
   let gcdResult = result[0]
   result.forEach(elt => gcdResult = gcd(gcdResult, elt))
-  if (gcdResult > 1) console.log('GCD match found', result, gcdResult)  // DEBUG ONLY
+  // if (gcdResult > 1) console.log('GCD match found', result, gcdResult)  // DEBUG ONLY
   if (gcdResult > 1) result = result.map(elt => elt / gcdResult)
   return result
 }

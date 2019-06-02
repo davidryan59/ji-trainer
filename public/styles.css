@@ -35,19 +35,60 @@ body {
 }
 
 .Question {
-  margin: 12px;
-  padding: 6px;
-  background: #F5F5F7;
-  border: 1px #D5D5EE solid;
+  margin: 4px;
+  padding: 0px 10px;
   border-radius: 6px;
 }
 
+.QuestionNotAnswered {
+  background: #F5F5F7;
+  border: 1px #D5D5EE solid;
+}
+
+.QuestionAnswered {
+  background: #E8E8E8;
+}
+
+.QuestionNumber {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 125%;
+  color: #777;
+}
+
 .Answer {
-  margin: 6px;
+  margin: 5px;
   padding: 3px;
-  background: #EEF6DD;
-  border: 1px #DDDDBB solid;
-  border-radius: 4px;
+  border-radius: 5px;
+}
+
+.AnswerAwaitingSelection {
+  background: #BBE6EE;
+  border: 1px #99CCEE solid;
+}
+
+.AnswerCorrectSelection {
+  background: #BBFFBB;
+  border: 2px #88EE88 solid;
+  font-weight: bold;
+  color: darkgreen;
+}
+
+.AnswerCorrectNotSelected {
+  background: #EEEEAA;
+  border: 2px #44DD00 dashed;
+  font-weight: bold;
+}
+
+.AnswerIncorrectSelection {
+  background: #FFDDDD;
+  border: 2px #FFAAAA solid;
+  color: red;
+}
+
+.AnswerOther {
+  background: #EEEEEE;
+  border: 1px #DDDDDD solid;
 }
 
 button {
