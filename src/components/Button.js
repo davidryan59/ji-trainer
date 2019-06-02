@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Button = ({ id, label, charCode, onClick }) => (
   <button
     id={id}
