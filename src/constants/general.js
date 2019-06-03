@@ -3,8 +3,8 @@
 export const windowSizeChangeMinDiff = 20
 
 // // Test parameters
-// export const defaultNumberOfQuestions = 6
-// export const defaultNumberOfAnswers = 4
-// export const defaultNotesInChord = 4
-
 export const testAnswersToDisplay = 12
+
+// Control range (Hz) for audio playback for questions
+export const playNoteMinHz = 100
+export const playNoteMaxHz = 1000

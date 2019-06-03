@@ -1,3 +1,5 @@
+import { playNoteMinHz, playNoteMaxHz } from '../constants/general'
+
 const playAudioForQuestion = (data, getState, objStore) => {
   const state = getState()
   // Obtain the correct question and answer to play
@@ -8,7 +10,10 @@ const playAudioForQuestion = (data, getState, objStore) => {
   const answer = question.answers.find(answer => answer.aNum === aNumCorrect)
   // Set up the chord frequencies
   const chord = answer.chord
-  const baseFreqHz = (400 + 200 * Math.random()) / chord[0]
+  const chordTotalRatio = chord[chord.length - 1] / chord[0]
+  const chordLimitRatio = playNoteMaxHz / playNoteMinHz
+  const baseRatio = Math.max(1, chordLimitRatio / chordTotalRatio)   // Specifies maximum random shift in frequency ratio
+  const baseFreqHz = playNoteMinHz * (baseRatio ** Math.random()) / chord[0]
   const chordHz = chord.map( num => baseFreqHz * num)
   // Set up audio context variables
   const aCtx = objStore.ctx.audio
