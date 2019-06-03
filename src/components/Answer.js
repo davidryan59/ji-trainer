@@ -18,7 +18,7 @@ const calculateClassName = (aNum, uNum, cNum) => {
 }
 
 const Answer = ({ answer, userAnswerNum, correctAnswerNum }) => (
-  <Column className={`Answer ${calculateClassName(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='1'>
+  <Column className={`Answer ${calculateClassName(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='5'>
     <Row vertical='center'>
       <Column>
         {selectOutputFormat(answer.chord)}
@@ -29,7 +29,12 @@ const Answer = ({ answer, userAnswerNum, correctAnswerNum }) => (
         null
         : 
         <Column>
-          <ButtonC id={SELECT_ANSWER} charCode={'10003'} data={{qNum:answer.qNum,aNum:answer.aNum}} />
+          <ButtonC
+            id={SELECT_ANSWER}
+            charCode={'10003'}
+            data={{qNum:answer.qNum, aNum:answer.aNum}}
+            inlineStyles={{color:'#080', backgroundColor:'#EFE', padding:'3px 7px', margin:'0px 2px'}}
+          />
         </Column>
       }
     </Row>

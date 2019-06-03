@@ -11,18 +11,12 @@ const calculateClassName = uNum => (uNum) ? 'QuestionAnswered' : 'QuestionNotAns
 
 const Question = ({ canPlay, question }) => (
   <Row className={`Question ${calculateClassName(question.userAnswer)}`} vertical='center'>
-    <Column className='QuestionNumber' flex='1'>
+    <Column className='QuestionNumber' flex='2'>
       Q{question.qNum}
     </Column>
-    {
-      (!question.userAnswer && canPlay)
-      ?
-      <Column flex='1'>
-        <ButtonC id={PLAY_AUDIO} charCode={'9654'} data={{qNum:question.qNum}} />
-      </Column>    
-      :
-      null
-    }
+    <Column flex='3'>
+      <ButtonC id={PLAY_AUDIO} charCode={'9654'} data={{qNum:question.qNum}} disabled={!canPlay} />
+    </Column>    
     {question.answers.map( answer =>
       <AnswerC
         key={answer.aNum}

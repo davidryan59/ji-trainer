@@ -94,12 +94,21 @@ body {
 button {
   margin: 0px 5px;
   padding: 4px;
-  background: #F6F6F0;
   font-family: sans-serif;
   font-size: 12px;
-  color: #222;
   font-weight: bold;
-  border: 1px #440 solid;
   border-radius: 6px;
   cursor: pointer;
+}
+
+.ButtonEnabled {
+  background: #F6F6F0;
+  color: #222;
+  border: 1px #440 solid;
+}
+
+.ButtonDisabled {
+  background: #EEE;
+  color: #999;
+  border: 1px #CCC solid;
 }
