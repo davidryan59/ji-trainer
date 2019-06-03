@@ -2,7 +2,7 @@ const nbsp = String.fromCharCode(8239)
 
 const ratioToCents = ratio => 1200 * Math.log(ratio) / Math.log(2)
 
-export const randomIntegerUpTo = limit => 1 + Math.floor(Math.random() * limit)
+export const randomIntegerBetween = (start, end) => start + Math.floor(Math.random() * (end - start + 1))
 
 export const chordArrayToCompoundRatio = chordArray => chordArray.toString().replace(/,/g,':')
 

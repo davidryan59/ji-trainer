@@ -1,4 +1,4 @@
-import { randomIntegerUpTo, gcd } from '../maths'
+import { randomIntegerBetween, gcd } from '../maths'
 
 export const getInitialWindowState = () => ({
   width: window.innerWidth,
@@ -35,20 +35,20 @@ export const getNewQuestion = qNumInput => {
   } else {
     qNum = nextQuestionNumber++
   }
-  // const numberOfAnswers = 1 + randomIntegerUpTo(5)
+  // const numberOfAnswers = randomIntegerBetween(2, 6)
   const numberOfAnswers = 6
-  // const notesInChord = 1 + randomIntegerUpTo(5)
+  // const notesInChord = randomIntegerBetween(2, 6)
   const notesInChord = 2
   const result = {
     qNum,
     userAnswer: null,
-    correctAnswer: randomIntegerUpTo(numberOfAnswers),
+    correctAnswer: randomIntegerBetween(1, numberOfAnswers),
     answers: []
   }
   let randomSternBrocotPosition, answerFraction
   if (notesInChord === 2) {
     // Use Stern-Brocot tree
-    randomSternBrocotPosition = randomIntegerUpTo(sbArrayFor2Notes.length - numberOfAnswers + 1) - 1
+    randomSternBrocotPosition = randomIntegerBetween(0, sbArrayFor2Notes.length - numberOfAnswers)
   }
   for (let aNum=1; aNum<=numberOfAnswers; aNum++) {
     if (notesInChord === 2) {
@@ -72,10 +72,10 @@ const getNewAnswer = ({ qNum, aNum, notesInChord, answerFraction }) => {
 
 const getRandomChord = notesInChord => {
   let result = []
-  const startNum = randomIntegerUpTo(8)
+  const startNum = randomIntegerBetween(1, 8)
   let thisNum = startNum
   for (let nNum=1; nNum<=notesInChord; nNum++) {
-    const diff = randomIntegerUpTo(3)
+    const diff = randomIntegerBetween(1, 3)
     thisNum += diff
     result.push(thisNum)
   }
