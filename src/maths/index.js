@@ -4,7 +4,7 @@ export const chordArrayToCompoundRatio = chordArray => chordArray.toString().rep
 
 export const chordPairToCents = chordArray => {
   const cents = 1200 * Math.log(chordArray[1] / chordArray[0]) / Math.log(2)
-  return ('' + cents).slice(0, 6) + " cents"
+  return ('' + cents).slice(0, 6) + String.fromCharCode(8239) + 'c' // nbsp
 }
 
 export const gcd = (a, b) => (!b) ? a : gcd(b, a%b)

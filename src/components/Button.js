@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const Button = ({ id, label, charCode, onClick, disabled, inlineStyles }) => (
+const Button = ({ id, label, charCodeArray=[], onClick, disabled, inlineStyles }) => (
   <button
     id={id}
     onClick={onClick}
@@ -10,7 +10,7 @@ const Button = ({ id, label, charCode, onClick, disabled, inlineStyles }) => (
     style={inlineStyles}
   >
     {label}
-    {String.fromCharCode(charCode)}
+    {charCodeArray.map(charCode => String.fromCharCode(charCode))}
   </button>
 )
 

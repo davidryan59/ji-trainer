@@ -15,13 +15,20 @@ const Question = ({ canPlay, question }) => (
       Q{question.qNum}
     </Column>
     <Column flex='3'>
-      <ButtonC id={PLAY_AUDIO} charCode={'9654'} data={{qNum:question.qNum}} disabled={!canPlay} />
+      <ButtonC
+        id={PLAY_AUDIO}
+        charCodeArray={['9654']}
+        data={{qNum:question.qNum}}
+        disabled={!canPlay}
+        inlineStyles={{width:'35px'}}
+      />
     </Column>    
     {question.answers.map( answer =>
       <AnswerC
         key={answer.aNum}
         userAnswerNum={question.userAnswer}
         correctAnswerNum={question.correctAnswer}
+        questionHasPlayed={question.hasPlayed}
         answer={answer}
       />
     )}

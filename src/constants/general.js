@@ -6,3 +6,5 @@ export const windowSizeChangeMinDiff = 20
 // export const defaultNumberOfQuestions = 6
 // export const defaultNumberOfAnswers = 4
 // export const defaultNotesInChord = 4
+
+export const testAnswersToDisplay = 12

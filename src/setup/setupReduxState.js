@@ -23,7 +23,18 @@ const sternBrocot = (array, levels=0) => {
 const sbArrayFor2Notes = sternBrocot([[1,1],[2,1]], 4)
 console.log(sbArrayFor2Notes)
 
-export const getNewQuestion = qNum => {
+let nextQuestionNumber = 1
+
+export const getNewQuestion = qNumInput => {
+  // qNumInput is optional.
+  // If used, it resets question numbering.
+  let qNum
+  if (qNumInput) {
+    qNum = qNumInput
+    nextQuestionNumber = qNumInput + 1
+  } else {
+    qNum = nextQuestionNumber++
+  }
   // const numberOfAnswers = 1 + randomIntegerUpTo(5)
   const numberOfAnswers = 6
   // const notesInChord = 1 + randomIntegerUpTo(5)

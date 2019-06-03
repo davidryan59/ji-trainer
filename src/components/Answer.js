@@ -17,10 +17,24 @@ const calculateClassName = (aNum, uNum, cNum) => {
   return 'AnswerOther'
 }
 
-const Answer = ({ answer, userAnswerNum, correctAnswerNum }) => (
+const answerStylesDisabled = {
+  color:'#AAA',
+  backgroundColor:'#EEE',
+  padding:'3px 7px',
+  margin:'0px 2px'  
+}
+
+const answerStylesEnabled = {
+  color:'#080',
+  backgroundColor:'#EFE',
+  padding:'3px 7px',
+  margin:'0px 2px'
+}
+
+const Answer = ({ answer, userAnswerNum, correctAnswerNum, questionHasPlayed }) => (
   <Column className={`Answer ${calculateClassName(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='5'>
     <Row vertical='center'>
-      <Column>
+      <Column style={{margin:'0px 7px'}}>
         {selectOutputFormat(answer.chord)}
       </Column>
       {
@@ -31,9 +45,10 @@ const Answer = ({ answer, userAnswerNum, correctAnswerNum }) => (
         <Column>
           <ButtonC
             id={SELECT_ANSWER}
-            charCode={'10003'}
+            charCodeArray={['10003']}
             data={{qNum:answer.qNum, aNum:answer.aNum}}
-            inlineStyles={{color:'#080', backgroundColor:'#EFE', padding:'3px 7px', margin:'0px 2px'}}
+            disabled={!questionHasPlayed}
+            inlineStyles={(questionHasPlayed) ? answerStylesEnabled : answerStylesDisabled}
           />
         </Column>
       }

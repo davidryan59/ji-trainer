@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import { BUTTON_PRESS, PLAY_AUDIO, AUDIO_ENDED, START_TEST, SELECT_ANSWER } from '../constants/actionTypes'
+import { testAnswersToDisplay } from '../constants/general'
 import { getNewQuestion } from '../setup/setupReduxState'
 
 const playing = (state=false, action) => {
@@ -13,10 +14,14 @@ const questionsDealWithButtonPress = (state, action) => {
   switch (action.id) {
     case START_TEST:
       return [getNewQuestion(1)]
-    case SELECT_ANSWER:
-      return [getNewQuestion(state.length + 1), ...state.map(question =>
-        (question.qNum === action.qNum) ? {...question, userAnswer: action.aNum} : question
+    case PLAY_AUDIO:
+      return [...state.map(question => 
+        (question.qNum === action.qNum && !question.hasPlayed) ? {...question, hasPlayed: true} : question
       )]
+    case SELECT_ANSWER:
+      return [getNewQuestion(), ...state.map(question =>
+        (question.qNum === action.qNum) ? {...question, userAnswer: action.aNum} : question
+      )].splice(0, testAnswersToDisplay)
     default:
       return state
   }
