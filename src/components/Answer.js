@@ -4,8 +4,10 @@ import { Column, Row } from 'simple-flexbox'
 import ButtonC from './ButtonC'
 
 import { SELECT_ANSWER } from '../constants/actionTypes'
-import { chordArrayToCompoundRatio } from '../maths'
+import { chordArrayToCompoundRatio, chordPairToCents } from '../maths'
 
+
+const selectOutputFormat = chord => (chord.length === 2) ? chordPairToCents(chord) : chordArrayToCompoundRatio(chord)
 
 const calculateClassName = (aNum, uNum, cNum) => {
   if (!uNum) return 'AnswerAwaitingSelection'
@@ -19,7 +21,7 @@ const Answer = ({ answer, userAnswerNum, correctAnswerNum }) => (
   <Column className={`Answer ${calculateClassName(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='1'>
     <Row vertical='center'>
       <Column>
-        {chordArrayToCompoundRatio(answer.chord)}
+        {selectOutputFormat(answer.chord)}
       </Column>
       {
         (userAnswerNum)
