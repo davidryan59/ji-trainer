@@ -1,4 +1,5 @@
 import { randomIntegerBetween, gcd } from '../maths'
+import { picklistSetupArray } from './setupPicklists'
 
 export const getInitialWindowState = () => ({
   width: window.innerWidth,
@@ -86,3 +87,5 @@ const getRandomChord = notesInChord => {
   if (gcdResult > 1) result = result.map(elt => elt / gcdResult)
   return result
 }
+
+export const initialisePicklistFromId = id => picklistSetupArray.find( picklist => picklist.id === id )

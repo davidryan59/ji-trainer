@@ -4,6 +4,9 @@ import { BUTTON_PRESS, PLAY_AUDIO, AUDIO_ENDED, START_TEST, SELECT_ANSWER } from
 import { testAnswersToDisplay } from '../constants/general'
 import { getNewQuestion } from '../setup/setupReduxState'
 
+import { PLAYBACK_SPEED } from '../constants/actionTypes'
+import picklist from './picklist'
+
 const playing = (state=false, action) => {
   if (action.type === BUTTON_PRESS && action.id === PLAY_AUDIO) return true
   if (action.type === AUDIO_ENDED) return false
@@ -36,8 +39,13 @@ const questions = (state=[], action) => {
   }
 }
 
+const controlsObj = {}
+controlsObj[PLAYBACK_SPEED] = picklist(PLAYBACK_SPEED)
+const controls = combineReducers(controlsObj)
+
 const test = combineReducers({
   playing,
+  controls,
   questions
 })
 

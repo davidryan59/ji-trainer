@@ -1,7 +1,13 @@
 import { playNoteMinHz, playNoteMaxHz } from '../constants/general'
 
+import { PLAYBACK_SPEED } from '../constants/actionTypes'
+import { getPicklistNumericValue } from '../setup/setupPicklists'
+
+
 const playAudioForQuestion = (data, getState, objStore) => {
   const state = getState()
+  // Get control parameters from state
+  const totalPlayTimeS = getPicklistNumericValue(state.test.controls[PLAYBACK_SPEED])
   // Obtain the correct question and answer to play
   const qNum = data.qNum
   console.log(`Playing audio for Q${qNum}`)
@@ -24,11 +30,13 @@ const playAudioForQuestion = (data, getState, objStore) => {
   mixerGain.gain.setTargetAtTime(1 / chordHz.length, aCtxTime, 0.01)  // Short time constant - gain moves quickly to the right value
   // Iterate over chord, create nodes for each note in chord
   const nodes = []
-  const diffS = 0.10 + 0.05 * Math.random()
-  let startS = -diffS
+  const maxTotalDiffS = 0.40 * totalPlayTimeS
+  const minTotalDiffS = 0.25 * totalPlayTimeS
+  const noteDiffS = (minTotalDiffS + (maxTotalDiffS - minTotalDiffS) * Math.random()) / Math.max(1, chordHz.length - 1)
+  let startS = -noteDiffS
   chordHz.forEach( freq => {
-    // Offset start of each note in chord by a short time
-    startS += Math.floor(1 + 1.2 * Math.random()) * diffS
+    // Arpeggiate chord using a short time lapse between notes
+    startS += noteDiffS
     // Main oscillator (sine)
     const oscNode = aCtx.createOscillator()
     const gainNode = aCtx.createGain()
@@ -42,21 +50,22 @@ const playAudioForQuestion = (data, getState, objStore) => {
     modGainNode.gain.value = 500 + 500 * Math.random()
     modOscNode.connect(modGainNode)
     modGainNode.connect(oscNode.frequency)    
+    // Start all source nodes before ADSR starts
     // Control main gain node to give an ADSR envelope
+    // Stop all source nodes after ADSR finishes
     const sustainHeight = 0.8
     oscNode.frequency.value = freq
     gainNode.gain.setValueAtTime(0, 0)
-    gainNode.gain.setValueAtTime(0, aCtxTime + startS + 0.05)
-    gainNode.gain.linearRampToValueAtTime(1, aCtxTime + startS + 0.10)
-    gainNode.gain.linearRampToValueAtTime(sustainHeight, aCtxTime + startS + 0.30)
-    gainNode.gain.linearRampToValueAtTime(sustainHeight, aCtxTime + 1.70)
-    gainNode.gain.linearRampToValueAtTime(0, aCtxTime + 2.00)
-    // Start all source nodes before ADSR starts
-    oscNode.start(aCtxTime + 0.03)
-    modOscNode.start(aCtxTime + 0.03)
-    // Stop all source nodes after ADSR finishes
-    oscNode.stop(aCtxTime + 2.10)
-    modOscNode.stop(aCtxTime + 2.10)
+    oscNode.start(aCtxTime + 0.01)
+    modOscNode.start(aCtxTime + 0.01)
+    gainNode.gain.setValueAtTime(0, aCtxTime + startS + 0.02)
+    gainNode.gain.linearRampToValueAtTime(1, aCtxTime + startS + 0.05)
+    gainNode.gain.linearRampToValueAtTime(sustainHeight, aCtxTime + startS + 0.15)
+    gainNode.gain.cancelScheduledValues(aCtxTime + totalPlayTimeS - 0.21)
+    gainNode.gain.linearRampToValueAtTime(sustainHeight, aCtxTime + totalPlayTimeS - 0.2)
+    gainNode.gain.linearRampToValueAtTime(0, aCtxTime + totalPlayTimeS - 0.01)
+    oscNode.stop(aCtxTime + totalPlayTimeS - 0.005)
+    modOscNode.stop(aCtxTime + totalPlayTimeS - 0.005)
     // Keep a list of nodes that will need teardown (disconnecting)
     nodes.push(oscNode)
     nodes.push(modOscNode)
@@ -64,7 +73,6 @@ const playAudioForQuestion = (data, getState, objStore) => {
     nodes.push(modGainNode)
   })  
   // Construct a teardown function to run after audio has stopped playing
-  const totalPlayTimeS = 2.20
   const teardownFn = () => {
     console.log(`Running teardown on Q${qNum}`)
     for (let i=0; i<nodes.length; i++) {
