@@ -39,7 +39,7 @@ const playAudioForQuestion = (data, getState, objStore) => {
     const modGainNode = aCtx.createGain()
     const freqMult = 1
     modOscNode.frequency.value = freq * freqMult
-    modGainNode.gain.value = 50 + 500 * Math.random()
+    modGainNode.gain.value = 500 + 500 * Math.random()
     modOscNode.connect(modGainNode)
     modGainNode.connect(oscNode.frequency)    
     // Control main gain node to give an ADSR envelope

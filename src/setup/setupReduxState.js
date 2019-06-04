@@ -38,7 +38,7 @@ export const getNewQuestion = qNumInput => {
   // const numberOfAnswers = randomIntegerBetween(2, 6)
   const numberOfAnswers = 6
   // const notesInChord = randomIntegerBetween(2, 6)
-  const notesInChord = 2
+  const notesInChord = 4
   const result = {
     qNum,
     userAnswer: null,

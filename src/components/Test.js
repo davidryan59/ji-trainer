@@ -10,9 +10,6 @@ import { START_TEST } from '../constants/actionTypes'
 const Test = ({ setup, results, questions }) => (
   <Column className='Test' horizontal='center'>
     <Row>
-      Identify chords and intervals in Just Intonation
-    </Row>
-    <Row>
       <ButtonC id={START_TEST} label={'Start new test'} />
     </Row>
     {questions.map( question =>
@@ -21,9 +18,6 @@ const Test = ({ setup, results, questions }) => (
         question={question}
       />
     )}
-    <Row>
-      Your test results are a score of {100} out of {100}
-    </Row>
   </Column>
 )
 
