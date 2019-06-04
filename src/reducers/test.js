@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
 import { BUTTON_PRESS, PLAY_AUDIO, AUDIO_ENDED, START_TEST, SELECT_ANSWER } from '../constants/actionTypes'
-import { testAnswersToDisplay } from '../constants/general'
+import { testMaxQuestionsToDisplay } from '../constants/general'
 import { getNewQuestion } from '../setup/setupReduxState'
 
 import { PLAYBACK_SPEED } from '../constants/actionTypes'
@@ -24,7 +24,7 @@ const questionsDealWithButtonPress = (state, action) => {
     case SELECT_ANSWER:
       return [getNewQuestion(), ...state.map(question =>
         (question.qNum === action.qNum) ? {...question, userAnswer: action.aNum} : question
-      )].splice(0, testAnswersToDisplay)
+      )].splice(0, testMaxQuestionsToDisplay)
     default:
       return state
   }
@@ -48,6 +48,5 @@ const test = combineReducers({
   controls,
   questions
 })
-
 
 export default test

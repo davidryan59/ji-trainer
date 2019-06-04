@@ -1,4 +1,5 @@
 import { resHzToDelayS } from '../../maths'
+import { mixerDelayResHzArray, mixerDelayGainArray } from '../../constants/general'
 
 const setupMixer = (objStore, reduxStore) => {
   // Object store will contain a mixer and all its nodes
@@ -34,19 +35,14 @@ const setupMixer = (objStore, reduxStore) => {
   
   // Create delay network
   // Setup parameters
-  const val1 = 314.159265
-  const mult1 = 3 ** 0.5 - 1            // Sqrt(3) - 1  = 0.732...
-  const mult2 = (5 ** 0.5 - 1) * 0.5    // Golden ratio = 0.618...
-  const delayResHzArray = [val1, val1 * mult1, val1 * mult2]  // Resonant frequencies - mutually irrational
-  const delayGainArray = [-0.45, -0.35, -0.2]                  // Gains - must sum to -1
-  const lowestResHz = delayResHzArray.reduce((acc, curr) => Math.min(acc, curr), 1e15)
-  const maxDelayS = resHzToDelayS(lowestResHz) + 0.05
+  const lowestResHz = mixerDelayResHzArray.reduce((acc, curr) => Math.min(acc, curr), 1e15)
+  const maxDelayS = resHzToDelayS(lowestResHz)
   // Create channels
   mixer.delayNodes = []
   mixer.delayGains = []
-  for (let i=0; i<delayResHzArray.length; i++) {
-    const delayResHz = delayResHzArray[i]
-    const delayGain = delayGainArray[i]
+  for (let i=0; i<mixerDelayResHzArray.length; i++) {
+    const delayResHz = mixerDelayResHzArray[i]
+    const delayGain = mixerDelayGainArray[i]
     // Create the delay channel
     mixer.delayNodes[i] = aCtx.createDelay(maxDelayS)
     mixer.delayGains[i] = aCtx.createGain()
