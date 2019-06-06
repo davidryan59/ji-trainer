@@ -1,10 +1,7 @@
 import { PLAYBACK_SPEED } from '../constants'
 import { getPicklistNumericValue } from '../picklists'
 
-import {
-  deltaS, playNoteMinHz, playNoteMaxHz, modulationMinIndex, modulationMaxIndex,
-  maxArpegg, minArpegg, attackS, decayS, sustainAmp, releaseS
-} from '../_params'
+import * as prm from '../_params'
 
 
 export const playAudioForQuestion = (data, getState, objStore) => {
@@ -20,9 +17,9 @@ export const playAudioForQuestion = (data, getState, objStore) => {
   // Set up the chord frequencies
   const chord = answer.chord
   const chordTotalRatio = chord[chord.length - 1] / chord[0]
-  const chordLimitRatio = playNoteMaxHz / playNoteMinHz
+  const chordLimitRatio = prm.playNoteMaxHz / prm.playNoteMinHz
   const baseRatio = Math.max(1, chordLimitRatio / chordTotalRatio)   // Specifies maximum random shift in frequency ratio
-  const baseFreqHz = playNoteMinHz * (baseRatio ** Math.random()) / chord[0]
+  const baseFreqHz = prm.playNoteMinHz * (baseRatio ** Math.random()) / chord[0]
   const chordHz = chord.map( num => baseFreqHz * num)
   // Set up audio context variables
   const aCtx = objStore.ctx.audio
@@ -33,7 +30,7 @@ export const playAudioForQuestion = (data, getState, objStore) => {
   mixerGain.gain.setTargetAtTime(1 / chord.length, aCtxTime, 0.01)  // Short time constant - gain moves quickly to the right value
   // Iterate over chord, create nodes for each note in chord
   const nodes = []
-  const noteDiffS = (minArpegg + (maxArpegg - minArpegg) * Math.random()) * totalPlayTimeS / Math.max(1, chord.length - 1)
+  const noteDiffS = (prm.minArpegg + (prm.maxArpegg - prm.minArpegg) * Math.random()) * totalPlayTimeS / Math.max(1, chord.length - 1)
   let arpeggS = -noteDiffS
   chordHz.forEach( freq => {
     // Arpeggiate chord using a short time lapse between notes
@@ -48,7 +45,7 @@ export const playAudioForQuestion = (data, getState, objStore) => {
     const modGainNode = aCtx.createGain()
     const freqMult = 1
     modOscNode.frequency.value = freq * freqMult
-    modGainNode.gain.value = modulationMinIndex + (modulationMaxIndex - modulationMinIndex) * Math.random()
+    modGainNode.gain.value = prm.modulationMinIndex + (prm.modulationMaxIndex - prm.modulationMinIndex) * Math.random()
     modOscNode.connect(modGainNode)
     modGainNode.connect(oscNode.frequency)    
     // Start all source nodes before ADSR starts
@@ -56,14 +53,14 @@ export const playAudioForQuestion = (data, getState, objStore) => {
     // Stop all source nodes after ADSR finishes
     oscNode.frequency.value = freq
     gainNode.gain.value = 0
-    oscNode.start(aCtxTime + deltaS)
-    modOscNode.start(aCtxTime + deltaS)
-    gainNode.gain.setValueAtTime(0, aCtxTime + arpeggS + deltaS)
-    gainNode.gain.linearRampToValueAtTime(1, aCtxTime + arpeggS + deltaS + attackS)
-    gainNode.gain.linearRampToValueAtTime(sustainAmp, aCtxTime + arpeggS + deltaS + attackS + decayS)
-    gainNode.gain.cancelScheduledValues(aCtxTime + totalPlayTimeS - releaseS - deltaS)
-    gainNode.gain.linearRampToValueAtTime(sustainAmp, aCtxTime + totalPlayTimeS - releaseS)
-    gainNode.gain.linearRampToValueAtTime(0, aCtxTime + totalPlayTimeS - deltaS)
+    oscNode.start(aCtxTime + prm.deltaS)
+    modOscNode.start(aCtxTime + prm.deltaS)
+    gainNode.gain.setValueAtTime(0, aCtxTime + arpeggS + prm.deltaS)
+    gainNode.gain.linearRampToValueAtTime(1, aCtxTime + arpeggS + prm.deltaS + prm.attackS)
+    gainNode.gain.linearRampToValueAtTime(prm.sustainAmp, aCtxTime + arpeggS + prm.deltaS + prm.attackS + prm.decayS)
+    gainNode.gain.cancelScheduledValues(aCtxTime + totalPlayTimeS - prm.releaseS - prm.deltaS)
+    gainNode.gain.linearRampToValueAtTime(prm.sustainAmp, aCtxTime + totalPlayTimeS - prm.releaseS)
+    gainNode.gain.linearRampToValueAtTime(0, aCtxTime + totalPlayTimeS - prm.deltaS)
     oscNode.stop(aCtxTime + totalPlayTimeS)
     modOscNode.stop(aCtxTime + totalPlayTimeS)
     // Keep a list of nodes that will need teardown (disconnecting)

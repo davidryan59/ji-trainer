@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import { NOTES_IN_CHORD, PLAYBACK_SPEED } from '../constants'
 import picklist from './picklist'
+import { NOTES_IN_CHORD, PLAYBACK_SPEED } from '../constants'
 
 
 const setupObj = {}

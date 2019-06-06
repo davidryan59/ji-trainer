@@ -3,19 +3,14 @@ import { combineReducers } from 'redux'
 import setup from './setup'
 import test from './test'
 import windowReducer from './window'
-
-import {
-  SETUP_TEST, TAKE_TEST, MARK_TEST,
-  START_TEST, FINISH_TEST, FINISH_REVIEW,
-  BUTTON_PRESS
-} from '../constants'
+import * as cts from '../constants'
 
 
-const mode = (state = SETUP_TEST, action) => {
-  if (action.type === BUTTON_PRESS) {
-    if (action.id === START_TEST) return TAKE_TEST
-    if (action.id === FINISH_TEST) return MARK_TEST
-    if (action.id === FINISH_REVIEW) return SETUP_TEST
+const mode = (state = cts.SETUP_TEST, action) => {
+  if (action.type === cts.BUTTON_PRESS) {
+    if (action.id === cts.START_TEST) return cts.TAKE_TEST
+    if (action.id === cts.FINISH_TEST) return cts.MARK_TEST
+    if (action.id === cts.FINISH_REVIEW) return cts.SETUP_TEST
   }
   return state
 }

@@ -1,7 +1,4 @@
-import {
-  defaultMaxChords, defaultMaxLoops, defaultMaxComplexity, defaultNumberOfNotes,
-  defaultMinInterval, defaultMaxInterval, defaultMinChordInterval, defaultMaxChordInterval
-} from '../_params'
+import * as prm from '../_params'
 
 import { ratioToCents, factorArray, arrayGcd, arrayLcm } from '../maths'
 
@@ -25,15 +22,15 @@ export const chordArrayToCompoundRatio = chordArray => chordArray.toString().rep
 
 const validateData = dt => {
   dt.chords = dt.chords || []
-  dt.maxChords = dt.maxChords || defaultMaxChords
+  dt.maxChords = dt.maxChords || prm.defaultMaxChords
   dt.currentLoops = dt.currentLoops || 1
-  dt.maxLoops = dt.maxLoops || defaultMaxLoops
-  dt.maxComplexity = dt.maxComplexity || defaultMaxComplexity
-  dt.numberOfNotes = dt.numberOfNotes || defaultNumberOfNotes
-  dt.minInterval = dt.minInterval || defaultMinInterval
-  dt.maxInterval = dt.maxInterval || defaultMaxInterval
-  dt.minChordInterval = dt.minChordInterval || defaultMinChordInterval
-  dt.maxChordInterval = dt.maxChordInterval || defaultMaxChordInterval
+  dt.maxLoops = dt.maxLoops || prm.defaultMaxLoops
+  dt.maxComplexity = dt.maxComplexity || prm.defaultMaxComplexity
+  dt.numberOfNotes = dt.numberOfNotes || prm.defaultNumberOfNotes
+  dt.minInterval = dt.minInterval || prm.defaultMinInterval
+  dt.maxInterval = dt.maxInterval || prm.defaultMaxInterval
+  dt.minChordInterval = dt.minChordInterval || prm.defaultMinChordInterval
+  dt.maxChordInterval = dt.maxChordInterval || prm.defaultMaxChordInterval
 }
 
 const hasFinished = dt => {
@@ -116,7 +113,7 @@ const addChordsOfComplexity = dt => {
 
 export const getChords = options => {
   const data = {...options}
-  for (let cy=0; cy<=data.maxComplexity || defaultMaxComplexity; cy++) {
+  for (let cy=0; cy<=data.maxComplexity || prm.defaultMaxComplexity; cy++) {
     data.currentComplexity = cy
     addChordsOfComplexity(data)
     if (hasFinished(data)) break
