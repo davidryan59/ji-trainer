@@ -16,6 +16,9 @@ export const SELECT_ANSWER = 'SELECT_ANSWER'
 export const FINISH_TEST = 'FINISH_TEST'
 export const FINISH_REVIEW = 'FINISH_REVIEW'
 
-// Picklist ids
+// Control types
+export const PICKLIST = 'PICKLIST'
+
+// Control ids
 export const NOTES_IN_CHORD = 'NOTES_IN_CHORD'
 export const PLAYBACK_SPEED = 'PLAYBACK_SPEED'

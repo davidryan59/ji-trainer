@@ -4,7 +4,7 @@ import SetupTest from './SetupTest'
 
 import { NOTES_IN_CHORD } from '../constants'
 
-import { getSummary } from '../picklists'
+import { getSummary } from '../controls'
 
 
 const mapStateToProps = (state, ownProps) => ({

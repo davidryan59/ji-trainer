@@ -1,5 +1,5 @@
 import { PLAYBACK_SPEED } from '../constants'
-import { getPicklistNumericValue } from '../picklists'
+import { getPicklistNumericValue } from '../controls'
 
 import * as prm from '../_params'
 

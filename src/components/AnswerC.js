@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 
 import Answer from './Answer'
 
-import { getSummary } from '../picklists'
+import { getSummary } from '../controls'
 
 
 const mapStateToProps = (state, ownProps) => ({

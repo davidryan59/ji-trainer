@@ -1,10 +1,14 @@
-import { NOTES_IN_CHORD, PLAYBACK_SPEED } from '../constants'
+import { PICKLIST, NOTES_IN_CHORD, PLAYBACK_SPEED } from '../constants'
 
 import { defaultNumberOfNotes } from '../_params'
 
 
-export const picklistSetupArray = [
+// Each type of control will have a different type of object.
+// Values must be provided for: type, id, value
+
+export const controlSetupArray = [
   {
+    type: PICKLIST,
     id: NOTES_IN_CHORD,
     label: 'Notes in chord',
     value: defaultNumberOfNotes,
@@ -12,6 +16,7 @@ export const picklistSetupArray = [
     nums: [2, 3, 4, 5, 6]
   },
   {
+    type: PICKLIST,
     id: PLAYBACK_SPEED,
     label: 'Note speed',
     value: 'Normal',
@@ -24,9 +29,11 @@ export const picklistSetupArray = [
 export const getPicklistNumericValue = picklist =>
   picklist.nums[picklist.values.findIndex( val => val === picklist.value )]
   
-export const getSummary = picklistsObj => {
+export const getSummary = controlsObj => {
   const result = {}
-  Object.entries(picklistsObj).forEach( ([key, value]) => result[key] = getPicklistNumericValue(value) )
+  Object.entries(controlsObj).forEach( ([controlId, controlObj]) => {
+    result[controlId] = (controlObj.type === PICKLIST) ? getPicklistNumericValue(controlObj) : controlObj.value
+  })
   return result
 }
   

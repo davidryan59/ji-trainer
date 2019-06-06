@@ -4,7 +4,7 @@ import { defaultNumberOfNotes, defaultNumberOfAnswers } from '../_params'
 
 import { randomIntegerBetween, gcd } from '../maths'
 import { getChords } from '../chords'
-import { picklistSetupArray } from '../picklists'
+import { controlSetupArray } from '../controls'
 
 
 export const getInitialWindowState = () => ({
@@ -111,4 +111,4 @@ const getRandomChord = notesInChord => {
   return result
 }
 
-export const initialisePicklistFromId = id => picklistSetupArray.find( picklist => picklist.id === id )
+export const initialisePicklistFromId = id => controlSetupArray.find( picklist => picklist.id === id )
