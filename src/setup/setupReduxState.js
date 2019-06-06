@@ -1,10 +1,22 @@
+import { NOTES_IN_CHORD } from '../constants'
+
+import { defaultNumberOfNotes, defaultNumberOfAnswers } from '../_params'
+
 import { randomIntegerBetween, gcd } from '../maths'
-import { picklistSetupArray } from './setupPicklists'
+import { getChords } from '../chords'
+import { picklistSetupArray } from '../picklists'
+
 
 export const getInitialWindowState = () => ({
   width: window.innerWidth,
   height: window.innerHeight  
 })
+
+
+// SPECIAL CASES FOR 2, 4 NOTES
+// GOING TO REDO THIS LATER WITH A GENERAL METHOD...
+
+// 2 notes
 
 const sternBrocot = (array, levels=0) => {
   // Array of form [[n1, d1], [n2, d2]]
@@ -24,9 +36,20 @@ const sternBrocot = (array, levels=0) => {
 const sbArrayFor2Notes = sternBrocot([[1,1],[2,1]], 4)
 console.log(sbArrayFor2Notes)
 
+
+// 4 notes
+
+const arrayFor4Notes = getChords({
+  maxComplexity: 1080,
+  maxLoops: 500000,
+  minInterval: 4/3,
+  maxChordInterval: 4/1
+}).chords
+
+
 let nextQuestionNumber = 1
 
-export const getNewQuestion = qNumInput => {
+export const getNewQuestion = (actionData, qNumInput) => {
   // qNumInput is optional.
   // If used, it resets question numbering.
   let qNum
@@ -37,9 +60,8 @@ export const getNewQuestion = qNumInput => {
     qNum = nextQuestionNumber++
   }
   // const numberOfAnswers = randomIntegerBetween(2, 6)
-  const numberOfAnswers = 6
-  // const notesInChord = randomIntegerBetween(2, 6)
-  const notesInChord = 4
+  const numberOfAnswers = defaultNumberOfAnswers
+  const notesInChord = actionData[NOTES_IN_CHORD] || defaultNumberOfNotes
   const result = {
     qNum,
     userAnswer: null,
@@ -72,6 +94,7 @@ const getNewAnswer = ({ qNum, aNum, notesInChord, answerFraction }) => {
 }
 
 const getRandomChord = notesInChord => {
+  if (notesInChord === 4) return arrayFor4Notes[Math.floor(Math.random() * arrayFor4Notes.length)]
   let result = []
   const startNum = randomIntegerBetween(1, 8)
   let thisNum = startNum

@@ -1,5 +1,6 @@
-import { resHzToDelayS } from '../../maths'
-import { mixerDelayResHzArray, mixerDelayGainArray } from '../../constants/general'
+import { resHzToDelayS } from '../maths'
+import { mixerDelayResHzArray, mixerDelayGainArray } from '../_params'
+
 
 const setupMixer = (objStore, reduxStore) => {
   // Object store will contain a mixer and all its nodes

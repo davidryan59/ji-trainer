@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import AppC from './components/AppC'
 import appReducer from './reducers'
 import setupObjectStore from './setup/setupObjectStore'
-import windowResizeHandler from './handlers/windowResizeHandler'
+import { windowResizeHandler } from './handlers'
 
 const objStore = {}
 const reduxStore = createStore(appReducer, applyMiddleware(thunk.withExtraArgument(objStore)))

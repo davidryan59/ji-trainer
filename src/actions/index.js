@@ -1,6 +1,7 @@
-import playAudioForQuestion from '../audio/playAudioForQuestion'
+import { playAudioForQuestion } from '../audio'
 
-import { PLAY_AUDIO, AUDIO_ENDED } from '../constants/actionTypes'
+import { PLAY_AUDIO, AUDIO_ENDED } from '../constants'
+
 
 let nextActionId = 0
 

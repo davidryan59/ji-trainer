@@ -3,8 +3,9 @@ import { Column, Row } from 'simple-flexbox'
 
 import ButtonC from './ButtonC'
 
-import { SELECT_ANSWER } from '../constants/actionTypes'
-import { chordArrayToCompoundRatio, chordArrayToCents } from '../maths'
+import { SELECT_ANSWER } from '../constants'
+import { chordArrayToCompoundRatio, chordArrayToCents } from '../chords'
+
 
 const calculateClassName = (aNum, uNum, cNum) => {
   if (!uNum) return 'AnswerAwaitingSelection'
@@ -28,7 +29,7 @@ const answerStylesEnabled = {
   margin:'0px 2px'
 }
 
-const Answer = ({ answer, userAnswerNum, correctAnswerNum, questionHasPlayed }) => (
+const Answer = ({ setupSummary, answer, userAnswerNum, correctAnswerNum, questionHasPlayed }) => (
   <Column className={`Answer ${calculateClassName(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='5'>
     <Row vertical='center'>
       <Column style={{margin:'0px 7px'}} horizontal='center'>
@@ -48,7 +49,7 @@ const Answer = ({ answer, userAnswerNum, correctAnswerNum, questionHasPlayed }) 
           <ButtonC
             id={SELECT_ANSWER}
             charCodeArray={['10003']}
-            data={{qNum:answer.qNum, aNum:answer.aNum}}
+            data={{...setupSummary, qNum:answer.qNum, aNum:answer.aNum}}
             disabled={!questionHasPlayed}
             inlineStyles={(questionHasPlayed) ? answerStylesEnabled : answerStylesDisabled}
           />

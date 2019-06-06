@@ -1,8 +1,9 @@
 import { getActionObject } from '../actions'
-import { windowSizeChangeMinDiff } from '../constants/general'
-import { WINDOW_RESIZE } from '../constants/actionTypes'
+import { windowSizeChangeMinDiff } from '../_params'
+import { WINDOW_RESIZE } from '../constants'
 
-const windowResizeHandler = (event, reduxStore) => {
+
+export const windowResizeHandler = (event, reduxStore) => {
   const windowState = reduxStore.getState().window
   const dispatch = reduxStore.dispatch
   
@@ -20,5 +21,3 @@ const windowResizeHandler = (event, reduxStore) => {
   if (windowSizeChangeMinDiff <= windowSizeChangeDiff)
     dispatch(getActionObject(WINDOW_RESIZE, {width:newWidth, height:newHeight}))
 }
-
-export default windowResizeHandler

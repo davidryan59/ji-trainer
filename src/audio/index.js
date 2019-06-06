@@ -1,16 +1,16 @@
-import { PLAYBACK_SPEED } from '../constants/actionTypes'
-import { getPicklistNumericValue } from '../setup/setupPicklists'
+import { PLAYBACK_SPEED } from '../constants'
+import { getPicklistNumericValue } from '../picklists'
 
 import {
   deltaS, playNoteMinHz, playNoteMaxHz, modulationMinIndex, modulationMaxIndex,
   maxArpegg, minArpegg, attackS, decayS, sustainAmp, releaseS
-} from '../constants/general'
+} from '../_params'
 
 
-const playAudioForQuestion = (data, getState, objStore) => {
+export const playAudioForQuestion = (data, getState, objStore) => {
   const state = getState()
   // Get control parameters from state
-  const totalPlayTimeS = getPicklistNumericValue(state.test.controls[PLAYBACK_SPEED])
+  const totalPlayTimeS = getPicklistNumericValue(state.setup[PLAYBACK_SPEED])
   // Obtain the correct question and answer to play
   const qNum = data.qNum
   console.log(`Playing audio for Q${qNum}`)
@@ -83,5 +83,3 @@ const playAudioForQuestion = (data, getState, objStore) => {
   // Return teardown to user
   return [totalPlayTimeS, teardownFn]
 }
-
-export default playAudioForQuestion

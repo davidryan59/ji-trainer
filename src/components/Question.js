@@ -4,7 +4,7 @@ import { Column, Row } from 'simple-flexbox'
 import ButtonC from './ButtonC'
 import AnswerC from './AnswerC'
 
-import { PLAY_AUDIO } from '../constants/actionTypes'
+import { PLAY_AUDIO } from '../constants'
 
 
 const calculateClassName = uNum => (uNum) ? 'QuestionAnswered' : 'QuestionNotAnswered'

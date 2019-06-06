@@ -1,10 +1,12 @@
 import { connect } from 'react-redux'
 
-import Test from './Test'
+import MarkTest from './MarkTest'
+
+import { getSummary } from '../picklists'
+
 
 const mapStateToProps = (state, ownProps) => ({
-  controls: state.test.controls,
-  questions: state.test.questions
+  setupSummary: getSummary(state.setup)
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -13,5 +15,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Test)
+)(MarkTest)
  

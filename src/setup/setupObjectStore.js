@@ -1,5 +1,6 @@
-import setupContexts from './task/setupContexts'
-import setupMixer from './task/setupMixer'
+import setupContexts from './setupContexts'
+import setupMixer from './setupMixer'
+
 
 const setupObjectStore = (objStore, reduxStore) => {
   // Initialise Redux store before initialising object store

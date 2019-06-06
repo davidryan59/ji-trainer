@@ -27,8 +27,9 @@ body {
   font-size: 9px;
 }
 
-.Test {
+.ModeComponent {
   margin: 10px 0px;
+  padding: 10px 0px;
   background: #EFEFEF;
   border: 2px #F3F3F3 solid;
   border-radius: 8px;

@@ -2,8 +2,19 @@
 // that causes a window change size action to be dispatched
 export const windowSizeChangeMinDiff = 20
 
+// Test setup parameters
+export const defaultMaxChords = 1000
+export const defaultMaxLoops = 500000        // Should take only a fraction of a second to run.
+export const defaultMaxComplexity = 1080     // 27 * 40. Will include normal and wolf intervals.
+export const defaultNumberOfNotes = 2
+export const defaultMinInterval = 1/1
+export const defaultMaxInterval = 512/1      // Human limit 22,000 Hz / 30 Hz, factor of 733
+export const defaultMinChordInterval = 1/1
+export const defaultMaxChordInterval = 512/1
+
 // Test parameters
 export const testMaxQuestionsToDisplay = 12
+export const defaultNumberOfAnswers = 6
 
 // Setup of note playback
 // Very short delay for spacing out parameter control on audio nodes
