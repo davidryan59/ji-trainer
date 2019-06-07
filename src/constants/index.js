@@ -32,3 +32,5 @@ export const controlIdArray = [
   MAX_COMPLEXITY, NOTES_IN_CHORD, PLAYBACK_SPEED,
   MIN_INTERVAL, MAX_INTERVAL, MIN_CHORD_INTERVAL, MAX_CHORD_INTERVAL
 ]
+
+export const nbsp = String.fromCharCode(8239)

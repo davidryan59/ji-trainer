@@ -3,6 +3,7 @@ import { Column, Row } from 'simple-flexbox'
 
 import ButtonC from './ButtonC'
 import AnswerC from './AnswerC'
+import QuestionInfoC from './QuestionInfoC'
 
 import { PLAY_AUDIO } from '../constants'
 
@@ -22,7 +23,7 @@ const Question = ({ canPlay, question }) => (
         disabled={!canPlay}
         inlineStyles={{width:'35px'}}
       />
-    </Column>    
+    </Column>
     {question.answers.map( answer =>
       <AnswerC
         key={answer.aNum}
@@ -32,6 +33,9 @@ const Question = ({ canPlay, question }) => (
         answer={answer}
       />
     )}
+    <Column flex='1'>
+      <QuestionInfoC question={question} />
+    </Column>
   </Row>
 )
 

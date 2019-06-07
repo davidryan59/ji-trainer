@@ -1,10 +1,10 @@
 import * as prm from '../_params'
+import { nbsp } from '../constants'
 
 import { ratioToCents, factorArray, arrayGcd, arrayLcm } from '../maths'
 
 
 // Views on chords
-const nbsp = String.fromCharCode(8239)
 
 export const chordArrayToCents = chordArray => {
   let result = ''
@@ -136,3 +136,66 @@ export const getChords = options => {
 //   minChordInterval: N,
 //   maxChordInterval: N
 // })
+
+
+// Chord calculations
+
+const getStandardisedPitchArray = chordArray => {
+  const pitchArray = chordArray.map( elt => Math.log(elt) / Math.log(2) )
+  const sumPitch = pitchArray.reduce( (acc, curr) => acc + curr )
+  const avgPitch = sumPitch / chordArray.length
+  const standardPitchArray = pitchArray.map( elt => elt - avgPitch )
+  return standardPitchArray  
+}
+
+const getPitchArrayDistanceCents = (pitch1, pitch2) => {
+  const pitchDiff = pitch1.map( (elt1, idx) => elt1 - pitch2[idx] )
+  const sumSq = pitchDiff.reduce( (acc, curr) => acc + curr * curr, 0 )
+  const result = sumSq ** 0.5
+  return 1200 * result
+}
+
+// const getChordDistanceCents = (chord1, chord2) => {
+//   // Assuming that:
+//   // - chord elements are numeric and in ascending order
+//   // - chord lengths are the same
+//   const pitch1 = getStandardisedPitchArray(chord1)
+//   const pitch2 = getStandardisedPitchArray(chord2)
+//   return getPitchArrayDistanceCents(pitch1, pitch2)
+// }
+
+// For next two functions, assuming:
+// - each element of chordArray is a chord, a numeric array in ascending order
+// - each chord has the same length
+
+export const getMinCentsBetweenAnyTwoChords = chordArray => {
+  const pitchArray = chordArray.map( chord => getStandardisedPitchArray(chord) )
+  const numChords = pitchArray.length
+  let minDistAll = 1e15
+  for (let i=0; i<numChords-1; i++) {
+    for (let j=i+1; j<numChords; j++) {
+      const newDist = getPitchArrayDistanceCents(pitchArray[i], pitchArray[j])  // newDist :D
+      minDistAll = Math.min(minDistAll, newDist)
+    }
+  }
+  return minDistAll
+}
+
+export const getMinCentsFromFixedChord = (chordArray, idx) => {
+  const pitchArray = chordArray.map( chord => getStandardisedPitchArray(chord) )
+  const pitch = pitchArray[idx]
+  const pitchArrayFilter = pitchArray.filter( (elt, fidx) => idx !== fidx )
+  const result = pitchArrayFilter.reduce( (acc, currPitch) => Math.min(acc, getPitchArrayDistanceCents(pitch, currPitch)), 1e15 )
+  return result
+}
+
+export const getChordSizeMeasure = chord => {
+  // Measure (used to compare multiple chords) is based on
+  // transposing chords to have same bottom note
+  // and measuring how much higher all the other notes are.
+  let pitches = getStandardisedPitchArray(chord)
+  const firstElt = pitches[0]
+  pitches = pitches.map( elt => elt - firstElt )  // Now its based at zero
+  const result = pitches.reduce( (acc, curr) => acc + curr )
+  return result
+}

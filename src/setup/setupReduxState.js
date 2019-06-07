@@ -1,6 +1,9 @@
-import { randomIntegerBetween, gcd } from '../maths'
-import { getChords } from '../chords'
+import { randomIntegerBetween, gcd, last } from '../maths'
 import { controlSetupArray } from '../controls'
+import {
+  getChords, getChordSizeMeasure,
+  getMinCentsBetweenAnyTwoChords, getMinCentsFromFixedChord
+} from '../chords'
 
 import * as cts from '../constants'
 import * as prm from '../_params'
@@ -16,7 +19,6 @@ export const getInitialWindowState = () => ({
 // GOING TO REDO THIS LATER WITH A GENERAL METHOD...
 
 // 2 notes
-
 const sternBrocot = (array, levels=0) => {
   // Array of form [[n1, d1], [n2, d2]]
   // Suggested values [[1, 1], [2, 1]]
@@ -33,7 +35,6 @@ const sternBrocot = (array, levels=0) => {
 }
 
 const sbArrayFor2Notes = sternBrocot([[1,1],[2,1]], 4)
-console.log(sbArrayFor2Notes)
 
 // END OF TEMPORARY SPECIAL CASES
 
@@ -86,13 +87,25 @@ export const getNewQuestion = (actionData, qNumInput) => {
     }
     result.answers.push(getNewAnswer({qNum, aNum, notesInChord, answerFraction, chordSet}))
   }
+  
+  // Sort in increasing order - chords with lower notes go first
+  result.answers.sort( (ans1, ans2) =>
+    getChordSizeMeasure(ans1.chord) - getChordSizeMeasure(ans2.chord)
+  )
+  
+  // Calculate stats
+  const chordArray = result.answers.map( answer => answer.chord )
+  result.minDistAll = getMinCentsBetweenAnyTwoChords(chordArray)
+  result.minDist = getMinCentsFromFixedChord(chordArray, result.correctAnswer - 1)
+  
+  // Return the newly constructed question
   return result
 }
 
 const getNewAnswer = ({ qNum, aNum, notesInChord, answerFraction, chordSet }) => {
-  const chord = (answerFraction)
+  const chord = answerFraction
               ? [answerFraction[1], answerFraction[0]]
-              : (chordSet)
+              : chordSet
               ? getRandomChordFromSet(chordSet)
               : getRandomChord(notesInChord)
   const result = {
