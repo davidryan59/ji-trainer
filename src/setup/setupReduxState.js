@@ -1,10 +1,9 @@
-import { NOTES_IN_CHORD } from '../constants'
-
-import { defaultNumberOfNotes, defaultNumberOfAnswers } from '../_params'
-
 import { randomIntegerBetween, gcd } from '../maths'
 import { getChords } from '../chords'
 import { controlSetupArray } from '../controls'
+
+import * as cts from '../constants'
+import * as prm from '../_params'
 
 
 export const getInitialWindowState = () => ({
@@ -36,15 +35,7 @@ const sternBrocot = (array, levels=0) => {
 const sbArrayFor2Notes = sternBrocot([[1,1],[2,1]], 4)
 console.log(sbArrayFor2Notes)
 
-
-// 4 notes
-
-const arrayFor4Notes = getChords({
-  maxComplexity: 1080,
-  maxLoops: 500000,
-  minInterval: 4/3,
-  maxChordInterval: 4/1
-}).chords
+// END OF TEMPORARY SPECIAL CASES
 
 
 let nextQuestionNumber = 1
@@ -60,31 +51,50 @@ export const getNewQuestion = (actionData, qNumInput) => {
     qNum = nextQuestionNumber++
   }
   // const numberOfAnswers = randomIntegerBetween(2, 6)
-  const numberOfAnswers = defaultNumberOfAnswers
-  const notesInChord = actionData[NOTES_IN_CHORD] || defaultNumberOfNotes
+  const numberOfAnswers = prm.defaultNumberOfAnswers
+  const notesInChord = actionData[cts.NOTES_IN_CHORD] || prm.defaultNumberOfNotes
   const result = {
     qNum,
     userAnswer: null,
     correctAnswer: randomIntegerBetween(1, numberOfAnswers),
     answers: []
   }
-  let randomSternBrocotPosition, answerFraction
+  let chordSet, randomSternBrocotPosition, answerFraction
   if (notesInChord === 2) {
     // Use Stern-Brocot tree
     randomSternBrocotPosition = randomIntegerBetween(0, sbArrayFor2Notes.length - numberOfAnswers)
+  }
+  if (notesInChord === 4) {
+    // Generate a new chord set using specified parameters
+    // Note - need to refactor so that this route is always used.
+    // Currently, getChords only supports 4 note chords...
+    chordSet = getChords({
+      maxComplexity: actionData[cts.MAX_COMPLEXITY],
+      minInterval: actionData[cts.MIN_INTERVAL],
+      maxInterval: actionData[cts.MAX_INTERVAL],
+      minChordInterval: actionData[cts.MIN_CHORD_INTERVAL],
+      maxChordInterval: actionData[cts.MAX_CHORD_INTERVAL],
+    }).chords
+    console.log(`${chordSet.length} chords fit these criteria`)
+    console.log(chordSet)
   }
   for (let aNum=1; aNum<=numberOfAnswers; aNum++) {
     if (notesInChord === 2) {
       // Use Stern-Brocot tree
       answerFraction = sbArrayFor2Notes[randomSternBrocotPosition + aNum - 1]
+      console.log(`Stern Brocot used (TEMPORARY)`)
     }
-    result.answers.push(getNewAnswer({qNum, aNum, notesInChord, answerFraction}))
+    result.answers.push(getNewAnswer({qNum, aNum, notesInChord, answerFraction, chordSet}))
   }
   return result
 }
 
-const getNewAnswer = ({ qNum, aNum, notesInChord, answerFraction }) => {
-  const chord = (answerFraction) ? [answerFraction[1], answerFraction[0]] : getRandomChord(notesInChord)
+const getNewAnswer = ({ qNum, aNum, notesInChord, answerFraction, chordSet }) => {
+  const chord = (answerFraction)
+              ? [answerFraction[1], answerFraction[0]]
+              : (chordSet)
+              ? getRandomChordFromSet(chordSet)
+              : getRandomChord(notesInChord)
   const result = {
     qNum,
     aNum,
@@ -93,8 +103,15 @@ const getNewAnswer = ({ qNum, aNum, notesInChord, answerFraction }) => {
   return result
 }
 
+const getRandomChordFromSet = chordSet => {
+  console.log(`Random chord set used (TEMPORARY)`)
+  const idx = randomIntegerBetween(0, chordSet.length - 1)
+  const randChord = chordSet[idx]
+  return randChord
+}
+
 const getRandomChord = notesInChord => {
-  if (notesInChord === 4) return arrayFor4Notes[Math.floor(Math.random() * arrayFor4Notes.length)]
+  console.log('Using old getRandomChord method')
   let result = []
   const startNum = randomIntegerBetween(1, 8)
   let thisNum = startNum

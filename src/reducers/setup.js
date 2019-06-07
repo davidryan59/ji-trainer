@@ -1,12 +1,11 @@
 import { combineReducers } from 'redux'
 
 import picklist from './picklist'
-import { NOTES_IN_CHORD, PLAYBACK_SPEED } from '../constants'
+import { controlIdArray } from '../constants'
 
 
 const setupObj = {}
-setupObj[NOTES_IN_CHORD] = picklist(NOTES_IN_CHORD)
-setupObj[PLAYBACK_SPEED] = picklist(PLAYBACK_SPEED)
+controlIdArray.forEach( id => setupObj[id] = picklist(id) )
 const setup = combineReducers(setupObj)
 
 export default setup

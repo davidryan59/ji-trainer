@@ -1,3 +1,5 @@
+export const last = array => array[array.length - 1]
+
 export const ratioToCents = ratio => 1200 * Math.log(ratio) / Math.log(2)
 
 export const randomIntegerBetween = (start, end) => start + Math.floor(Math.random() * (end - start + 1))
@@ -20,4 +22,11 @@ export const factorArray = n => {
   const extras = (nsqr === nsqri) ? len - 1 : len
   for (let j=0; j<extras; j++) result.push(n / result[extras - j - 1])
   return result
+}
+
+export const getFloatFromFractionString = fs => {
+  let [num, denom] = fs.split('/')
+  num = Number.parseInt(num)
+  denom = Number.parseInt(denom)
+  return denom ? (num ? num/denom : 0) : (num ? num : 0)
 }

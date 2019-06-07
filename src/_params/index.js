@@ -1,16 +1,43 @@
+import { last, getFloatFromFractionString } from '../maths'
+
 // Minimum number of pixels change in window size (vertically or horizontally)
 // that causes a window change size action to be dispatched
 export const windowSizeChangeMinDiff = 20
 
+
 // Test setup parameters
-export const defaultMaxChords = 1000
+export const defaultMaxChords = 10000
 export const defaultMaxLoops = 500000        // Should take only a fraction of a second to run.
-export const defaultMaxComplexity = 1080     // 27 * 40. Will include normal and wolf intervals.
-export const defaultNumberOfNotes = 2
-export const defaultMinInterval = 1/1
-export const defaultMaxInterval = 512/1      // Human limit 22,000 Hz / 30 Hz, factor of 733
-export const defaultMinChordInterval = 1/1
-export const defaultMaxChordInterval = 512/1
+
+// Picklist setups
+export const notesInChordArray = [2, 3, 4, 5, 6].reverse()
+export const defaultNumberOfNotes = last(notesInChordArray)
+
+export const maxComplexityArray = [
+  30, 60, 120, 240, 360, 504, 720, 1080, 1680,
+  2520, 3360, 5040, 7560, 10080, 20160, 55440
+].reverse()
+export const defaultMaxComplexity = 1080   // 1080 = 27 * 40. Will include normal and wolf intervals.
+
+// Minimum interval humans can discern is around 1 cent, or roughly 1701 Hz / 1700 Hz
+// however most useful chords will contain intervals much larger than this.
+// Maximum interval humans can discern is around 22,000 Hz / 30 Hz, factor of 733,
+// however most useful chords will be less than 6 octaves.
+export const intervalValArray = [
+  '1',
+  '81/80', '36/35', '25/24', '16/15', '10/9', '8/7',
+  '23/20', '15/13', '7/6', '13/11', '6/5', '11/9', '5/4', '9/7', '13/10', '30/23',
+  '17/13', '4/3', '11/8', '7/5', '3/2', '8/5', '5/3', '7/4',
+  '2', '5/2', '3', '4', '5', '6', '7',
+  '8', '16', '32', '64'
+].reverse()  // Want bigger intervals at top of picklist
+export const intervalNumArray = intervalValArray.map( elt => getFloatFromFractionString(elt) )
+const minInterval = last(intervalNumArray)
+const maxInterval = intervalNumArray[0]
+export const defaultMinInterval = minInterval
+export const defaultMaxInterval = maxInterval
+export const defaultMinChordInterval = minInterval
+export const defaultMaxChordInterval = maxInterval
 
 // Test parameters
 export const testMaxQuestionsToDisplay = 12
