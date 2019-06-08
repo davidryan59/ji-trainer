@@ -9,7 +9,7 @@ export const randomIntegerBetween = (start, end) => start + Math.floor(Math.rand
 export const resHzToDelayS = resonantFreqHz => 1 / (2 * resonantFreqHz)
 
 const reduceArrayWithBinaryFn = fn => arr => arr.reduce( (acc, curr) => fn(acc, curr) )
-export const gcd = (a, b) => (!b) ? a : gcd(b, a%b)
+export const gcd = (a, b) => !b ? a : gcd(b, a%b)
 export const lcm = (a, b) => a * b / gcd(a, b)
 export const arrayGcd = reduceArrayWithBinaryFn(gcd)
 export const arrayLcm = reduceArrayWithBinaryFn(lcm)
@@ -21,7 +21,7 @@ export const factorArray = n => {
   const nsqri = Math.floor(nsqr)
   for (let i=0; i<=nsqri; i++) if (n % i === 0) result.push(i)
   const len = result.length
-  const extras = (nsqr === nsqri) ? len - 1 : len
+  const extras = nsqr === nsqri ? len - 1 : len
   for (let j=0; j<extras; j++) result.push(n / result[extras - j - 1])
   return result
 }

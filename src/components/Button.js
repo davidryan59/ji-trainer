@@ -6,7 +6,7 @@ const Button = ({ id, label, charCodeArray=[], onClick, disabled, inlineStyles }
     id={id}
     onClick={onClick}
     disabled={disabled}
-    className={(disabled) ? 'ButtonDisabled' : 'ButtonEnabled'}
+    className={disabled ? 'ButtonDisabled' : 'ButtonEnabled'}
     style={inlineStyles}
   >
     {label}

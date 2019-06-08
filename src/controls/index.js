@@ -73,7 +73,7 @@ export const getPicklistNumericValue = picklist =>
 export const getSummary = controlsObj => {
   const result = {}
   Object.entries(controlsObj).forEach( ([controlId, controlObj]) => {
-    result[controlId] = (controlObj.type === cts.PICKLIST) ? getPicklistNumericValue(controlObj) : controlObj.value
+    result[controlId] = controlObj.type === cts.PICKLIST ? getPicklistNumericValue(controlObj) : controlObj.value
   })
   return result
 }

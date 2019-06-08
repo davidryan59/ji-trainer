@@ -17,11 +17,11 @@ const questionsDealWithButtonPress = (state, action) => {
       return [getNewQuestion(action, 1)]
     case cts.PLAY_AUDIO:
       return [...state.map(question => 
-        (question.qNum === action.qNum && !question.hasPlayed) ? {...question, hasPlayed: true} : question
+        question.qNum === action.qNum && !question.hasPlayed ? {...question, hasPlayed: true} : question
       )]
     case cts.SELECT_ANSWER:
       return [getNewQuestion(action), ...state.map(question =>
-        (question.qNum === action.qNum) ? {...question, userAnswer: action.aNum} : question
+        question.qNum === action.qNum ? {...question, userAnswer: action.aNum} : question
       )].splice(0, testMaxQuestionsToDisplay)
     default:
       return state

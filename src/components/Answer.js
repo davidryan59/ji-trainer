@@ -88,7 +88,7 @@ const Answer = ({ noteCount, cy, otc, utc, setupSummary, answer, userAnswerNum, 
             charCodeArray={['10003']}
             data={{...setupSummary, qNum:answer.qNum, aNum:answer.aNum}}
             disabled={!questionHasPlayed}
-            inlineStyles={(questionHasPlayed) ? answerStylesEnabled : answerStylesDisabled}
+            inlineStyles={questionHasPlayed ? answerStylesEnabled : answerStylesDisabled}
           />
         </Column>
       }
