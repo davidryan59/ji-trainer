@@ -13,7 +13,7 @@ export const controlSetupArray = [
     type: cts.PICKLIST,
     id: cts.NOTES_IN_CHORD,
     label: 'Notes in chord',
-    value: prm.defaultNumberOfNotes,
+    value: prm.defaultNotesInChord,
     values: [...prm.notesInChordArray]
   },
   {

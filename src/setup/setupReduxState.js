@@ -53,7 +53,7 @@ export const getNewQuestion = (actionData, qNumInput) => {
   }
   // const numberOfAnswers = randomIntegerBetween(2, 6)
   const numberOfAnswers = prm.defaultNumberOfAnswers
-  const notesInChord = actionData[cts.NOTES_IN_CHORD] || prm.defaultNumberOfNotes
+  const notesInChord = actionData[cts.NOTES_IN_CHORD] || prm.defaultNotesInChord
   const result = {
     qNum,
     userAnswer: null,
@@ -70,6 +70,7 @@ export const getNewQuestion = (actionData, qNumInput) => {
     // Note - need to refactor so that this route is always used.
     // Currently, getChords only supports 4 note chords...
     chordSet = getChords({
+      notesInChord,
       maxComplexity: actionData[cts.MAX_COMPLEXITY],
       minInterval: actionData[cts.MIN_INTERVAL],
       maxInterval: actionData[cts.MAX_INTERVAL],

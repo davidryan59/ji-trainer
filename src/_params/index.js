@@ -13,7 +13,7 @@ export const defaultMaxLoops = 500000        // Should take only a fraction of a
 
 // Picklist setups
 export const notesInChordArray = [2, 3, 4, 5, 6].reverse()
-export const defaultNumberOfNotes = last(notesInChordArray)
+export const defaultNotesInChord = last(notesInChordArray)
 
 export const maxComplexityArray = [
   30, 60, 120, 240, 360, 504, 720, 1080, 1680,
