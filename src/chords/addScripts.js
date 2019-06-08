@@ -1,89 +1,54 @@
 import { validateData, hasFinished, isComplexityValid } from './supportScripts'
-import { factorArray, arrayGcd, arrayLcm } from '../maths'
+import { last, factorArray, arrayGcd, arrayLcm } from '../maths'
 
 
 const addChords = dt => {
-  // Sense checks
   validateData(dt)
   if (hasFinished(dt)) return dt
   if (!isComplexityValid(dt)) return dt
-  dt.currFactors = factorArray(dt.currentComplexity)
-  dt.countFactors = dt.currFactors.length
-  if (dt.countFactors < dt.notesInChord) return dt
-  // Everything is valid, can iteratively find arrays that match
-  
-  // NEED TO REFACTOR THIS INTO A SINGLE ITERATIVE FUNCTION
-  switch (dt.notesInChord) {
-    case 2:
-      return addChordsLength2(dt)
-    case 3:
-      return addChordsLength3(dt)
-    case 4:
-      return addChordsLength4(dt)
-    case 5:
-      return addChordsLength5(dt)
-    case 6:
-      return addChordsLength6(dt)
-    default:
-      return addChordsLength4(dt)
-  }
+  const countNotes = dt.notesInChord
+  dt.currentFactors = factorArray(dt.currentComplexity)
+  dt.countFactors = dt.currentFactors.length
+  if (dt.countFactors < countNotes) return dt
+  dt.currentFactorIndices = new Array(countNotes)  // Positions in factor array, from 0 to factor count - 1
+  dt.currentNotes = new Array(countNotes)          // Numbers from factor array, making up chord
+  return addChordsInner(dt, 0)
 }
 
 export default addChords
 
 
-const addChordsLength2 = dt => dt
-const addChordsLength3 = dt => dt
-const addChordsLength5 = dt => dt
-const addChordsLength6 = dt => dt
-
-
-const addChordsLength4 = dt => {
-  let c0 = -1
-  for (let c1=c0+1; c1<dt.countFactors-3; c1++) {
-    
-    if (dt.maxLoops <= dt.currentLoops++) return dt
-    const n1 = dt.currFactors[c1]
-    // const r10 = n1/n0
-    // if (r10 < dt.minInterval) continue
-    // if (dt.maxInterval < r10) break
-    
-    for (let c2=c1+1; c2<dt.countFactors-2; c2++) {
-      
-      if (dt.maxLoops <= dt.currentLoops++) return dt
-      const n2 = dt.currFactors[c2]
-      const r21 = n2/n1
-      if (r21 < dt.minInterval) continue
-      if (dt.maxInterval < r21) break
-      
-      for (let c3=c2+1; c3<dt.countFactors-1; c3++) {
-        
-        if (dt.maxLoops <= dt.currentLoops++) return dt
-        const n3 = dt.currFactors[c3]
-        const r32 = n3/n2
-        if (r32 < dt.minInterval) continue
-        if (dt.maxInterval < r32) break
-        
-        for (let c4=c3+1; c4<dt.countFactors-0; c4++) {
-          
-          if (dt.maxLoops <= dt.currentLoops++) return dt
-          const n4 = dt.currFactors[c4]
-          const r43 = n4/n3
-          if (r43 < dt.minInterval) continue
-          if (dt.maxInterval < r43) break
-          
-          const chordArray = [n1, n2, n3, n4]
-          const ratioEnds = n4/n1
-          
-          if (ratioEnds < dt.minChordInterval) break
-          if (dt.maxChordInterval < ratioEnds) break
-          const gcd0 = arrayGcd(chordArray)
-          const lcm0 = arrayLcm(chordArray)
-          if (1 < gcd0 || lcm0 < dt.currentComplexity) continue
-          dt.chords.push(chordArray)
-          if (dt.maxChords <= dt.chords.length) return dt
-        }
-      }
+const addChordsInner = (dt, noteIdx) => {
+  const prevFactorIndex = noteIdx === 0 ? -1 : dt.currentFactorIndices[noteIdx - 1]
+  // noteIdx starts at 0 (first note), and ends at dt.notesInChord - 1 (last note)
+  const lastNoteIdx = dt.notesInChord - 1
+  const factorIndexLimit = dt.countFactors + noteIdx - lastNoteIdx
+  for (let currentFactorIndex = prevFactorIndex + 1; currentFactorIndex < factorIndexLimit; currentFactorIndex++) {
+    if (dt.maxChords <= dt.chords.length || dt.maxLoops <= dt.currentLoops++) break
+    dt.currentFactorIndices[noteIdx] = currentFactorIndex
+    dt.currentNotes[noteIdx] = dt.currentFactors[currentFactorIndex]
+    if (noteIdx > 0) {
+      const intervalToPrevNote = dt.currentNotes[noteIdx] / dt.currentNotes[noteIdx - 1]
+      if (intervalToPrevNote < dt.minInterval) continue
+      if (dt.maxInterval < intervalToPrevNote) break
+    }
+    if (noteIdx < lastNoteIdx) {
+      // Too few notes chosen - iterate.
+      addChordsInner(dt, noteIdx + 1)
+    } else {
+      // All notes now chosen - final checks.
+      // Check chord is not too big or too smal
+      const chordInterval = last(dt.currentNotes) / dt.currentNotes[0]
+      if (chordInterval < dt.minChordInterval) continue
+      if (dt.maxChordInterval < chordInterval) break
+      // Check chord complexity level matches current level
+      // to prevent same chord being found at different complexity levels
+      const gcd0 = arrayGcd(dt.currentNotes)
+      const lcm0 = arrayLcm(dt.currentNotes)
+      if (1 < gcd0 || lcm0 < dt.currentComplexity) continue
+      // All notes chosen, all validations passed. Store the chord!
+      // Must save a copy, since array is shared.
+      dt.chords.push([...dt.currentNotes])
     }
   }
   return dt
