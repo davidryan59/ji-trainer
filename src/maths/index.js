@@ -2,6 +2,8 @@ export const last = array => array[array.length - 1]
 
 export const ratioToCents = ratio => 1200 * Math.log(ratio) / Math.log(2)
 
+export const toIntegerPercentText = num => '' + Math.round(100 * num) + '%'
+
 export const randomIntegerBetween = (start, end) => start + Math.floor(Math.random() * (end - start + 1))
 
 export const resHzToDelayS = resonantFreqHz => 1 / (2 * resonantFreqHz)

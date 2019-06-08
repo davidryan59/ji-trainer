@@ -2,6 +2,7 @@ import { last, getFloatFromFractionString } from '../maths'
 
 // Show the state viewer? (Developer option)
 export const showStateViewer = false
+// export const showStateViewer = true
 
 // Minimum number of pixels change in window size (vertically or horizontally)
 // that causes a window change size action to be dispatched

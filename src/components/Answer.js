@@ -3,7 +3,7 @@ import { Column, Row } from 'simple-flexbox'
 
 import ButtonC from './ButtonC'
 
-import { SELECT_ANSWER } from '../constants'
+import { SELECT_ANSWER, nbsp } from '../constants'
 
 
 const calculateCssClass = (aNum, uNum, cNum) => {
@@ -28,7 +28,7 @@ const answerStylesEnabled = {
   margin:'0px 2px'
 }
 
-const Answer = ({ setupSummary, answer, userAnswerNum, correctAnswerNum, questionHasPlayed, displayRatios, isUtonal, displayCents }) => (
+const Answer = ({ noteCount, cy, otc, utc, setupSummary, answer, userAnswerNum, correctAnswerNum, questionHasPlayed, displayRatios, isUtonal, displayCents }) => (
   <Column className={`Answer ${calculateCssClass(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='5'>
     <Row vertical='center'>
       <Column style={{margin:'0px 7px'}} horizontal='center'>
@@ -48,8 +48,33 @@ const Answer = ({ setupSummary, answer, userAnswerNum, correctAnswerNum, questio
             {displayRatios}
           </Row>          
         }
-        <Row style={{fontSize:'80%'}}>
+        <Row style={{color:'#008', fontSize:'80%', marginTop:'1px', marginBottom:'4px'}}>
           {displayCents}
+        </Row>
+        <Row style={{fontSize:'80%', fontStyle:'italic'}}>
+          <span style={{color:'#060'}}>
+            CY{nbsp + cy}
+          </span>
+          {
+            noteCount > 2
+            ?
+            <span>
+            ,{nbsp}
+              {
+                isUtonal
+                ?
+                <span style={{color:'#608'}}>
+                  {`UTC${nbsp + utc}`}
+                </span>                
+                :
+                <span style={{color:'#560'}}>
+                  {`OTC${nbsp + otc}`}
+                </span>
+              }
+            </span>
+            : 
+            null
+          }
         </Row>
       </Column>
       {

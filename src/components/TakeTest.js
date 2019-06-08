@@ -13,6 +13,7 @@ const TakeTest = ({ questions, playbackSpeedPicklist }) => (
     <Row>
       <PicklistC picklist={playbackSpeedPicklist} />
     </Row>
+    Put stats here: number of chords, number of ticks, max complexity...
     {
       questions.map( question =>
         <QuestionC
