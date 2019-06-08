@@ -4,10 +4,9 @@ import { Column, Row } from 'simple-flexbox'
 import ButtonC from './ButtonC'
 
 import { SELECT_ANSWER } from '../constants'
-import { chordArrayToCompoundRatio, chordArrayToCents } from '../chords'
 
 
-const calculateClassName = (aNum, uNum, cNum) => {
+const calculateCssClass = (aNum, uNum, cNum) => {
   if (!uNum) return 'AnswerAwaitingSelection'
   if (aNum === cNum && cNum === uNum) return 'AnswerCorrectSelection'
   if (aNum === cNum && cNum !== uNum) return 'AnswerCorrectNotSelected'
@@ -29,19 +28,32 @@ const answerStylesEnabled = {
   margin:'0px 2px'
 }
 
-const Answer = ({ setupSummary, answer, userAnswerNum, correctAnswerNum, questionHasPlayed }) => (
-  <Column className={`Answer ${calculateClassName(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='5'>
+const Answer = ({ setupSummary, answer, userAnswerNum, correctAnswerNum, questionHasPlayed, displayRatios, isUtonal, displayCents }) => (
+  <Column className={`Answer ${calculateCssClass(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='5'>
     <Row vertical='center'>
       <Column style={{margin:'0px 7px'}} horizontal='center'>
-        <Row style={{fontSize:'110%', fontWeight:'bold', margin:'2px'}}>
-          {chordArrayToCompoundRatio(answer.chord)}
-        </Row>
+        {
+          isUtonal
+          ?
+          <div>
+            <Row style={{fontSize:'90%', margin:'0px', fontWeight:'bold'}} horizontal='center'>
+              {'1'}
+            </Row>          
+            <Row style={{fontSize:'100%', fontWeight:'bold', margin:'2px', borderTop:'1px solid #000'}}>
+              {displayRatios}
+            </Row>
+          </div>          
+          :
+          <Row style={{fontSize:'110%', fontWeight:'bold', margin:'2px'}}>
+            {displayRatios}
+          </Row>          
+        }
         <Row style={{fontSize:'80%'}}>
-          {chordArrayToCents(answer.chord)}
+          {displayCents}
         </Row>
       </Column>
       {
-        (userAnswerNum)
+        userAnswerNum
         ?
         null
         : 

@@ -4,6 +4,32 @@ import { nbsp } from '../constants'
 import { ratioToCents, factorArray, arrayGcd, arrayLcm } from '../maths'
 
 
+// Currently a chord is simply an array of integers
+// such as [1, 2], [4, 5, 6] or [2, 3, 5, 7, 11, 13]
+// Not yet implemented a specific class to handle chords,
+// although its an option for the future.
+
+
+// Mathematical functions on chords
+// see 'Mathematical Harmony Analysis' at https://arxiv.org/pdf/1603.08904.pdf
+export const log2 = num => Math.log(num) / Math.log(2)
+export const complexity = chordArray => arrayLcm(chordArray) / arrayGcd(chordArray)
+export const logComplexity = chordArray => log2(complexity(chordArray))
+const sumLogChord = chordArray => chordArray.reduce(
+  (acc, curr) => acc + log2(curr)
+, 0 )
+export const logMidpoint = chordArray => (sumLogChord(chordArray) / chordArray.length) - log2(arrayGcd(chordArray))
+export const otonality = chordArray => {
+  const n = chordArray.length
+  if (n<3) return 0
+  const lcy = logComplexity(chordArray)
+  const lm = logMidpoint(chordArray)
+  const result = (n / (n-2)) * (lcy - 2 * lm) / lcy
+  return result  
+}
+export const utonality = chordArray => -otonality(chordArray) || 0    // OR condition maps -0 to 0
+
+
 // Views on chords
 
 export const chordArrayToCents = chordArray => {
@@ -15,7 +41,22 @@ export const chordArrayToCents = chordArray => {
   return result.slice(0, result.length - 2) + nbsp + 'c'
 }
 
-export const chordArrayToCompoundRatio = chordArray => chordArray.toString().replace(/,/g,':')
+export const chordArrayToOtonalCompoundRatio = chordArray => {
+  const gcd = arrayGcd(chordArray)
+  const otonalArray = chordArray.map( elt => elt / gcd )
+  return otonalArray.toString().replace(/,/g,':')
+}
+
+export const chordArrayToUtonalCompoundRatio = chordArray => {
+  const lcm = arrayLcm(chordArray)
+  const utonalArray = chordArray.map( elt => lcm / elt )
+  return chordArrayToOtonalCompoundRatio(utonalArray)
+}
+
+export const displayChordArrayRatios = chordArray =>
+  utonality(chordArray) > 0
+  ? [chordArrayToUtonalCompoundRatio(chordArray), true]
+  : [chordArrayToOtonalCompoundRatio(chordArray), false]
 
 
 // Generate new chords

@@ -13,12 +13,14 @@ const TakeTest = ({ questions, playbackSpeedPicklist }) => (
     <Row>
       <PicklistC picklist={playbackSpeedPicklist} />
     </Row>
-    {questions.map( question =>
-      <QuestionC
-        key={question.qNum}
-        question={question}
-      />
-    )}
+    {
+      questions.map( question =>
+        <QuestionC
+          key={question.qNum}
+          question={question}
+        />
+      )
+    }
     <Row>
       <ButtonC id={FINISH_TEST} label={'Finish test'} />
     </Row>

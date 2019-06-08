@@ -1,4 +1,4 @@
-import { randomIntegerBetween, gcd, last } from '../maths'
+import { randomIntegerBetween, gcd } from '../maths'
 import { controlSetupArray } from '../controls'
 import {
   getChords, getChordSizeMeasure,

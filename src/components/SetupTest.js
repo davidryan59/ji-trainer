@@ -13,20 +13,20 @@ const SetupTest = obj => (
       <PicklistC picklist={obj.notesInChordPicklist} />
       <PicklistC picklist={obj.maxComplexityPicklist} />
       <Column>
-      <Row>
-      <PicklistC picklist={obj.maxIntervalPicklist} />
-      </Row>
-      <Row>
-      <PicklistC picklist={obj.minIntervalPicklist} />
-      </Row>
+        <Row>
+          <PicklistC picklist={obj.maxIntervalPicklist} />
+        </Row>
+        <Row>
+          <PicklistC picklist={obj.minIntervalPicklist} />
+        </Row>
       </Column>
       <Column>
-      <Row>
-      <PicklistC picklist={obj.maxChordIntervalPicklist} />
-      </Row>
-      <Row>
-      <PicklistC picklist={obj.minChordIntervalPicklist} />
-      </Row>
+        <Row>
+          <PicklistC picklist={obj.maxChordIntervalPicklist} />
+        </Row>
+        <Row>
+          <PicklistC picklist={obj.minChordIntervalPicklist} />
+        </Row>
       </Column>
     </Row>
     <Row>
