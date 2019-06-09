@@ -59,10 +59,26 @@ export const displayChordArrayRatios = chordArray =>
   ? [chordArrayToUtonalCompoundRatio(chordArray), true]
   : [chordArrayToOtonalCompoundRatio(chordArray), false]
 
+export const validateChordData = chordData => {
+  if (!chordData || !chordData.chords) return [false, '']    // Chord data not generated, exit silently
+  const chordArray = chordData.chords
+  const len = chordArray.length
+  const chordFoundMessage = `${len} chord${len===1?'':'s'} found`
+  let canStartTest = false
+  let validationMessage = ''
+  if (len < prm.minChordsForTest) {
+    validationMessage = `${chordFoundMessage}, need ${prm.minChordsForTest} for test`
+  } else {
+    canStartTest = true
+    validationMessage = `${chordFoundMessage}, ready to start test`
+  }
+  return [canStartTest, validationMessage]
+}
+
 
 // Generate new chords
 
-export const getChords = options => {
+export const getChordData = options => {
   const data = {...options}
   for (let cy=0; cy<=data.maxComplexity || prm.defaultMaxComplexity; cy++) {
     data.currentComplexity = cy
@@ -72,10 +88,10 @@ export const getChords = options => {
   return data
 }
 
-// // Use this parameter format for getChords.
+// // Use this parameter format for getChordData.
 // // All components are optional.
 //
-// const outputData = getChords({
+// const outputData = getChordData({
 //   notesInChord: N,
 //   maxLoops: N,
 //   maxChords: N,

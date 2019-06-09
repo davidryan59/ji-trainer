@@ -1,14 +1,15 @@
 import { last, getFloatFromFractionString } from '../maths'
 
 // Show the state viewer? (Developer option)
-export const showStateViewer = false
-// export const showStateViewer = true
+// export const showStateViewer = false
+export const showStateViewer = true
 
 // Minimum number of pixels change in window size (vertically or horizontally)
 // that causes a window change size action to be dispatched
 export const windowSizeChangeMinDiff = 20
 
 // Test setup parameters
+export const minChordsForTest = 50
 export const defaultMaxChords = 10000
 export const defaultMaxLoops = 500000        // Should take only a fraction of a second to run.
 

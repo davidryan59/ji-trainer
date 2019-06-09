@@ -1,5 +1,6 @@
 // Modes
 export const SETUP_TEST = 'SETUP_TEST'
+export const TEST_VALID = 'TEST_VALID'
 export const TAKE_TEST = 'TAKE_TEST'
 export const MARK_TEST = 'MARK_TEST'
 
@@ -10,6 +11,7 @@ export const BUTTON_PRESS = 'BUTTON_PRESS'
 export const AUDIO_ENDED = 'AUDIO_ENDED'
 
 // Button ids
+export const VALIDATE_TEST = 'VALIDATE_TEST'
 export const START_TEST = 'START_TEST'
 export const PLAY_AUDIO = 'PLAY_AUDIO'
 export const SELECT_ANSWER = 'SELECT_ANSWER'

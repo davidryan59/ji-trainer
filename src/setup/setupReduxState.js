@@ -1,7 +1,7 @@
 import { randomIntegerBetween } from '../maths'
 import { controlSetupArray } from '../controls'
 import {
-  getChords, getChordSizeMeasure,
+  getChordData, getChordSizeMeasure,
   getMinCentsBetweenAnyTwoChords, getMinCentsFromFixedChord
 } from '../chords'
 
@@ -37,7 +37,7 @@ export const getNewQuestion = (actionData, qNumInput) => {
     correctAnswer: randomIntegerBetween(1, numberOfAnswers),
     answers: []
   }
-  const chordSet = getChords({
+  const chordArray = getChordData({
     notesInChord,
     maxComplexity: actionData[cts.MAX_COMPLEXITY],
     minInterval: actionData[cts.MIN_INTERVAL],
@@ -45,11 +45,11 @@ export const getNewQuestion = (actionData, qNumInput) => {
     minChordInterval: actionData[cts.MIN_CHORD_INTERVAL],
     maxChordInterval: actionData[cts.MAX_CHORD_INTERVAL],
   }).chords
-  console.log(`${chordSet.length} chords fit these criteria`)
-  console.log(chordSet)
-  const subset = getSuitableSubset(chordSet, numberOfAnswers)
+  console.log(`${chordArray.length} chords fit these criteria`)
+  console.log(chordArray)
+  const chordArrayChosenSubset = getSuitableSubset(chordArray, numberOfAnswers)
   for (let aNum=1; aNum<=numberOfAnswers; aNum++) {
-    const chord = subset[aNum-1]
+    const chord = chordArrayChosenSubset[aNum-1]
     result.answers.push({qNum, aNum, chord})
   }
   
@@ -59,16 +59,16 @@ export const getNewQuestion = (actionData, qNumInput) => {
   )
   
   // Calculate stats
-  const chordArray = result.answers.map( answer => answer.chord )
-  result.minDistAll = getMinCentsBetweenAnyTwoChords(chordArray)
-  result.minDist = getMinCentsFromFixedChord(chordArray, result.correctAnswer - 1)
+  const chordArrayFromAnswers = result.answers.map( answer => answer.chord )
+  result.minDistAll = getMinCentsBetweenAnyTwoChords(chordArrayFromAnswers)
+  result.minDist = getMinCentsFromFixedChord(chordArrayFromAnswers, result.correctAnswer - 1)
   
   // Return the newly constructed question
   return result
 }
 
-const getSuitableSubset = (chordSet, numberOfAnswers) => {
-  const arr = [...chordSet]
+const getSuitableSubset = (chordArray, numberOfAnswers) => {
+  const arr = [...chordArray]
   const result = []
   for (let i=0; i<numberOfAnswers; i++) {
     const randIdx = randomIntegerBetween(0, arr.length - 1)

@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  valueChange: e => dispatch(getThunk(SET_PICKLIST, {id: ownProps.picklist.id, value: e.target.value}))
+  valueChange: e => dispatch(getThunk(SET_PICKLIST, {id: ownProps.picklist.id, value: e.target.value, ...ownProps.picklist.data}))
 })
 
 export default connect(

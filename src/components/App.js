@@ -13,6 +13,7 @@ import * as cts from '../constants'
 const getComponentInMode = mode => {
   switch (mode) {
     case cts.SETUP_TEST:
+    case cts.TEST_VALID:
       return <SetupTestC />
     case cts.TAKE_TEST:
       return <TakeTestC />
@@ -26,7 +27,7 @@ const getComponentInMode = mode => {
 const App = ({ mode }) => (
   <div className='app'>
     <div className='topline'>
-      <b>Interval and Chord Trainer for Just Intonation</b> - <i>by David Ryan, 2019</i>
+      <b>Chord and Interval Trainer for Just Intonation</b> - <i>by David Ryan, 2019</i>
     </div>
     {getComponentInMode(mode)}
     {

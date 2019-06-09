@@ -8,6 +8,7 @@ import * as cts from '../constants'
 
 const mode = (state = cts.SETUP_TEST, action) => {
   if (action.type === cts.BUTTON_PRESS) {
+    if (action.id === cts.VALIDATE_TEST) return cts.TEST_VALID
     if (action.id === cts.START_TEST) return cts.TAKE_TEST
     if (action.id === cts.FINISH_TEST) return cts.MARK_TEST
     if (action.id === cts.FINISH_REVIEW) return cts.SETUP_TEST

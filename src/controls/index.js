@@ -14,14 +14,20 @@ export const controlSetupArray = [
     id: cts.NOTES_IN_CHORD,
     label: 'Notes in chord',
     value: prm.defaultNotesInChord,
-    values: [...prm.notesInChordArray]
+    values: [...prm.notesInChordArray],
+    data: {
+      regenChords: true
+    }
   },
   {
     type: cts.PICKLIST,
     id: cts.MAX_COMPLEXITY,
     label: 'Maximum chord complexity',
     value: prm.defaultMaxComplexity,
-    values: [...prm.maxComplexityArray]
+    values: [...prm.maxComplexityArray],
+    data: {
+      regenChords: true
+    }
   },
   {
     type: cts.PICKLIST,
@@ -38,7 +44,10 @@ export const controlSetupArray = [
     label: 'Minimum interval',
     value: prm.defaultMinInterval,
     values: [...prm.intervalValArray],
-    nums: [...prm.intervalNumArray]
+    nums: [...prm.intervalNumArray],
+    data: {
+      regenChords: true
+    }
   },
   {
     type: cts.PICKLIST,
@@ -46,7 +55,10 @@ export const controlSetupArray = [
     label: 'Maximum interval',
     value: prm.defaultMaxInterval,
     values: [...prm.intervalValArray],
-    nums: [...prm.intervalNumArray]
+    nums: [...prm.intervalNumArray],
+    data: {
+      regenChords: true
+    }
   },
   {
     type: cts.PICKLIST,
@@ -54,7 +66,10 @@ export const controlSetupArray = [
     label: 'Minimum chord interval',
     value: prm.defaultMinChordInterval,
     values: [...prm.intervalValArray],
-    nums: [...prm.intervalNumArray]
+    nums: [...prm.intervalNumArray],
+    data: {
+      regenChords: true
+    }
   },
   {
     type: cts.PICKLIST,
@@ -62,7 +77,10 @@ export const controlSetupArray = [
     label: 'Maximum chord interval',
     value: prm.defaultMaxChordInterval,
     values: [...prm.intervalValArray],
-    nums: [...prm.intervalNumArray]
+    nums: [...prm.intervalNumArray],
+    data: {
+      regenChords: true
+    }
   }
 ]
   
