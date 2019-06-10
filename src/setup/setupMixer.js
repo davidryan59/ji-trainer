@@ -1,5 +1,5 @@
 import { resHzToDelayS } from '../maths'
-import { mixerDelayResHzArray, mixerDelayGainArray } from '../_params'
+import { mixerDelayArray } from '../_params'
 
 
 const setupMixer = (objStore, reduxStore) => {
@@ -36,15 +36,17 @@ const setupMixer = (objStore, reduxStore) => {
   
   // Create delay network
   // Setup parameters
-  const lowestResHz = mixerDelayResHzArray.reduce((acc, curr) => Math.min(acc, curr), 1e15)
+  const lowestResHz = mixerDelayArray.reduce((acc, arr) => Math.min(acc, arr[1]), 1e15)
   const maxDelayS = resHzToDelayS(lowestResHz)
   // Create channels
   mixer.delayNodes = []
   mixer.delayGains = []
-  for (let i=0; i<mixerDelayResHzArray.length; i++) {
-    const delayResHz = mixerDelayResHzArray[i]
-    const delayGain = mixerDelayGainArray[i]
-    // Create the delay channel
+  for (let i=0; i<mixerDelayArray.length; i++) {
+    // mixerDelayArray is array of arrays.
+    // Each element has format [gain, freqHz]
+    const delayGain = mixerDelayArray[i][0]
+    const delayResHz = mixerDelayArray[i][1]
+    // Create the delay channel 
     mixer.delayNodes[i] = aCtx.createDelay(maxDelayS)
     mixer.delayGains[i] = aCtx.createGain()
     mixer.delayNodes[i].delayTime.value = resHzToDelayS(delayResHz)

@@ -10,33 +10,33 @@ import { PLAY_AUDIO } from '../constants'
 
 const calculateCssClass = uNum => uNum ? 'QuestionAnswered' : 'QuestionNotAnswered'
 
-const Question = ({ canPlay, question }) => (
-  <Row className={`Question ${calculateCssClass(question.userAnswer)}`} vertical='center'>
+const Question = obj => (
+  <Row className={`Question ${calculateCssClass(obj.question.userAnswer)}`} vertical='center'>
     <Column className='QuestionNumber' flex='2'>
-      Q{question.qNum}
+      Q{obj.question.qNum}
     </Column>
     <Column flex='3'>
       <ButtonC
         id={PLAY_AUDIO}
         charCodeArray={['9654']}
-        data={{qNum:question.qNum}}
-        disabled={!canPlay}
+        data={{qNum:obj.question.qNum}}
+        disabled={!obj.canPlay}
         inlineStyles={{width:'35px'}}
       />
     </Column>
     {
-      question.answers.map( answer =>
+      obj.question.answers.map( answer =>
         <AnswerC
           key={answer.aNum}
-          userAnswerNum={question.userAnswer}
-          correctAnswerNum={question.correctAnswer}
-          questionHasPlayed={question.hasPlayed}
+          userAnswerNum={obj.question.userAnswer}
+          correctAnswerNum={obj.question.correctAnswer}
+          questionHasPlayed={obj.question.hasPlayed}
           answer={answer}
         />
       )
     }
     <Column flex='1'>
-      <QuestionInfoC question={question} />
+      <QuestionInfoC question={obj.question} />
     </Column>
   </Row>
 )

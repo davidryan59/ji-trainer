@@ -3,14 +3,14 @@ import React from 'react'
 import { nbsp } from '../constants'
 
 
-const QuestionInfo = ({ question }) => (
+const QuestionInfo = obj => (
   <span>
     {
-      question.userAnswer
+      obj.question.userAnswer
       ?
-      `Diff ${Math.round(question.minDist)}${nbsp}c`
+      `Diff ${Math.round(obj.question.minDist)}${nbsp}c`
       :
-      `Diff${nbsp}> ${Math.round(question.minDistAll)}${nbsp}c`
+      `Diff${nbsp}> ${Math.round(obj.question.minDistAll)}${nbsp}c`
     }
   </span>
 )

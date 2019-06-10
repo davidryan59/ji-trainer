@@ -1,4 +1,4 @@
-import * as prm from '../_params'
+import * as prm from '../../_params'
 
 
 export const validateData = dt => {

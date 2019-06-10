@@ -6,10 +6,10 @@ import ButtonC from './ButtonC'
 import { FINISH_REVIEW } from '../constants'
 
 
-const MarkTest = ({ setupSummary }) => (
+const MarkTest = () => (
   <Column className='ModeComponent' horizontal='center'>
     <Row>
-      <ButtonC id={FINISH_REVIEW} label={'Finish reviewing test'} data={setupSummary} />
+      <ButtonC id={FINISH_REVIEW} label={'Finish reviewing test'} data={{}} />
     </Row>
   </Column>
 )

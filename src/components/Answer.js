@@ -28,47 +28,47 @@ const answerStylesEnabled = {
   margin:'0px 2px'
 }
 
-const Answer = ({ noteCount, cy, otc, utc, setupSummary, answer, userAnswerNum, correctAnswerNum, questionHasPlayed, displayRatios, isUtonal, displayCents }) => (
-  <Column className={`Answer ${calculateCssClass(answer.aNum, userAnswerNum, correctAnswerNum)}`} flex='5'>
+const Answer = obj => (
+  <Column className={`Answer ${calculateCssClass(obj.answer.aNum, obj.userAnswerNum, obj.correctAnswerNum)}`} flex='5'>
     <Row vertical='center'>
       <Column style={{margin:'0px 7px'}} horizontal='center'>
         {
-          isUtonal
+          obj.isUtonal
           ?
           <div>
             <Row style={{fontSize:'90%', margin:'0px', fontWeight:'bold'}} horizontal='center'>
               {'1'}
             </Row>          
             <Row style={{fontSize:'100%', fontWeight:'bold', margin:'2px', borderTop:'1px solid #000'}}>
-              {displayRatios}
+              {obj.displayRatios}
             </Row>
           </div>          
           :
           <Row style={{fontSize:'110%', fontWeight:'bold', margin:'2px'}}>
-            {displayRatios}
+            {obj.displayRatios}
           </Row>          
         }
         <Row style={{color:'#008', fontSize:'80%', marginTop:'1px', marginBottom:'4px'}}>
-          {displayCents}
+          {obj.displayCents}
         </Row>
         <Row style={{fontSize:'80%', fontStyle:'italic'}}>
           <span style={{color:'#060'}}>
-            CY{nbsp + cy}
+            CY{nbsp + obj.cy}
           </span>
           {
-            noteCount > 2
+            obj.noteCount > 2
             ?
             <span>
             ,{nbsp}
               {
-                isUtonal
+                obj.isUtonal
                 ?
                 <span style={{color:'#608'}}>
-                  {`UTC${nbsp + utc}`}
+                  {`UTC${nbsp + obj.utc}`}
                 </span>                
                 :
                 <span style={{color:'#560'}}>
-                  {`OTC${nbsp + otc}`}
+                  {`OTC${nbsp + obj.otc}`}
                 </span>
               }
             </span>
@@ -78,7 +78,7 @@ const Answer = ({ noteCount, cy, otc, utc, setupSummary, answer, userAnswerNum, 
         </Row>
       </Column>
       {
-        userAnswerNum
+        obj.userAnswerNum
         ?
         null
         : 
@@ -86,9 +86,9 @@ const Answer = ({ noteCount, cy, otc, utc, setupSummary, answer, userAnswerNum, 
           <ButtonC
             id={SELECT_ANSWER}
             charCodeArray={['10003']}
-            data={{...setupSummary, qNum:answer.qNum, aNum:answer.aNum}}
-            disabled={!questionHasPlayed}
-            inlineStyles={questionHasPlayed ? answerStylesEnabled : answerStylesDisabled}
+            data={obj.data}
+            disabled={!obj.questionHasPlayed}
+            inlineStyles={obj.questionHasPlayed ? answerStylesEnabled : answerStylesDisabled}
           />
         </Column>
       }

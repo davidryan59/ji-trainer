@@ -1,5 +1,5 @@
 import { validateData, hasFinished, isComplexityValid } from './supportScripts'
-import { last, factorArray, arrayGcd, arrayLcm } from '../maths'
+import { last, factorArray, arrayGcd, arrayLcm } from '../../maths'
 
 
 const addChords = dt => {

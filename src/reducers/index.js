@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux'
+import { combineReducersWithOuterState } from '../redux-extensions'
+import * as cts from '../constants'
 
 import setup from './setup'
 import test from './test'
 import windowReducer from './window'
-import * as cts from '../constants'
 
 
-const mode = (state = cts.SETUP_TEST, action) => {
+const mode = (state = cts.SETUP_TEST, action, topState) => {
   if (action.type === cts.BUTTON_PRESS) {
     if (action.id === cts.VALIDATE_TEST) return cts.TEST_VALID
     if (action.id === cts.START_TEST) return cts.TAKE_TEST
@@ -16,9 +16,9 @@ const mode = (state = cts.SETUP_TEST, action) => {
   return state
 }
 
-const lastAction = (state = {}, action) => action
+const lastAction = (state = {}, action, topState) => action
 
-const appReducer = combineReducers({
+const appReducer = combineReducersWithOuterState({
   mode,
   setup,
   test,

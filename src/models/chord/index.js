@@ -1,6 +1,6 @@
-import * as prm from '../_params'
-import { nbsp } from '../constants'
-import { ratioToCents, arrayGcd, arrayLcm } from '../maths'
+import * as prm from '../../_params'
+import { nbsp } from '../../constants'
+import { ratioToCents, arrayGcd, arrayLcm } from '../../maths'
 import addChords from './addScripts'
 import { hasFinished } from './supportScripts'
 

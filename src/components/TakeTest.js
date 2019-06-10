@@ -8,14 +8,14 @@ import ButtonC from './ButtonC'
 import { FINISH_TEST } from '../constants'
 
 
-const TakeTest = ({ questions, playbackSpeedPicklist }) => (
+const TakeTest = obj => (
   <Column className='ModeComponent' horizontal='center'>
     <Row>
-      <PicklistC picklist={playbackSpeedPicklist} />
+      <PicklistC picklist={obj.playbackSpeedPicklist} />
     </Row>
     Put stats here: number of chords, number of ticks, max complexity...
     {
-      questions.map( question =>
+      obj.questions.map( question =>
         <QuestionC
           key={question.qNum}
           question={question}

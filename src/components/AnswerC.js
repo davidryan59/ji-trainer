@@ -2,22 +2,30 @@ import { connect } from 'react-redux'
 
 import Answer from './Answer'
 
-import { complexity, otonality, utonality, displayChordArrayRatios, chordArrayToCents } from '../chords'
+import * as chd from '../models/chord'
 import { getSummary } from '../controls'
 import { toIntegerPercentText } from '../maths'
 
 
 const mapStateToProps = (state, ownProps) => {
-  const [displayRatios, isUtonal] = displayChordArrayRatios(ownProps.answer.chord)
+  const answer = ownProps.answer
+  const chord = answer.chord
+  const [displayRatios, isUtonal] = chd.displayChordArrayRatios(chord)
+  const setupSummary = getSummary(state.setup)
   return {
     displayRatios,
     isUtonal,
-    noteCount: ownProps.answer.chord.length,
-    displayCents: chordArrayToCents(ownProps.answer.chord),
-    cy: complexity(ownProps.answer.chord),
-    otc: toIntegerPercentText(otonality(ownProps.answer.chord)),
-    utc: toIntegerPercentText(utonality(ownProps.answer.chord)),
-    setupSummary: getSummary(state.setup),
+    noteCount: chord.length,
+    displayCents: chd.chordArrayToCents(chord),
+    cy: chd.complexity(chord),
+    otc: toIntegerPercentText(chd.otonality(chord)),
+    utc: toIntegerPercentText(chd.utonality(chord)),
+    setupSummary,
+    data: {
+      ...setupSummary,
+      qNum:answer.qNum,
+      aNum:answer.aNum
+    }
   }  
 }
 

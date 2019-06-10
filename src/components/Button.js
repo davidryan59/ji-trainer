@@ -1,16 +1,22 @@
 import React from 'react'
 
 
-const Button = ({ id, label, charCodeArray=[], onClick, disabled, inlineStyles }) => (
+const Button = obj => (
   <button
-    id={id}
-    onClick={onClick}
-    disabled={disabled}
-    className={disabled ? 'ButtonDisabled' : 'ButtonEnabled'}
-    style={inlineStyles}
+    id={obj.id}
+    onClick={obj.onClick}
+    disabled={obj.disabled}
+    className={obj.disabled ? 'ButtonDisabled' : 'ButtonEnabled'}
+    style={obj.inlineStyles}
   >
-    {label}
-    {charCodeArray.map(charCode => String.fromCharCode(charCode))}
+    {obj.label}
+    {
+      Array.isArray(obj.charCodeArray)
+      ?
+      obj.charCodeArray.map(charCode => String.fromCharCode(charCode))
+      :
+      null
+    }
   </button>
 )
 

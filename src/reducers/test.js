@@ -1,44 +1,44 @@
-import { combineReducers } from 'redux'
-
-import { getChordData } from '../chords'
-import { getNewQuestion } from '../setup/setupReduxState'
-import { testMaxQuestionsToDisplay } from '../_params'
+import { combineReducersWithOuterState } from '../redux-extensions'
+import * as prm from '../_params'
 import * as cts from '../constants'
 
+import { getChordData } from '../models/chord'
+import { getNextQuestion } from '../models/question'
 
-const playing = (state=false, action) => {
+
+const playing = (state=false, action, topState) => {
   if (action.type === cts.BUTTON_PRESS && action.id === cts.PLAY_AUDIO) return true
   if (action.type === cts.AUDIO_ENDED) return false
   return state
 }
 
-const questionsBP = (state, action) => {
+const questionsBP = (state, action, topState) => {
   switch (action.id) {
     case cts.START_TEST:
-      return [getNewQuestion(action, 1)]
+      return [getNextQuestion(action, 1)]
     case cts.PLAY_AUDIO:
       return [...state.map(question => 
         question.qNum === action.qNum && !question.hasPlayed ? {...question, hasPlayed: true} : question
       )]
     case cts.SELECT_ANSWER:
-      return [getNewQuestion(action), ...state.map(question =>
+      return [getNextQuestion(action), ...state.map(question =>
         question.qNum === action.qNum ? {...question, userAnswer: action.aNum} : question
-      )].splice(0, testMaxQuestionsToDisplay)
+      )].splice(0, prm.testMaxQuestionsToDisplay)
     default:
       return state
   }
 }
 
-const questions = (state=[], action) => {
+const questions = (state=[], action, topState) => {
   switch (action.type) {
     case cts.BUTTON_PRESS:
-      return questionsBP(state, action)
+      return questionsBP(state, action, topState)
     default:
       return state
   }
 }
 
-const chordDataBP = (state, action) => {
+const chordDataBP = (state, action, topState) => {
   switch (action.id) {
     case cts.VALIDATE_TEST:
       return getChordData({
@@ -56,10 +56,10 @@ const chordDataBP = (state, action) => {
   }
 }
 
-const chordData = (state=null, action) => {
+const chordData = (state=null, action, topState) => {
   switch (action.type) {
     case cts.BUTTON_PRESS:
-      return chordDataBP(state, action)
+      return chordDataBP(state, action, topState)
     case cts.SET_PICKLIST:
       return action.regenChords ? null : state
     default:
@@ -67,7 +67,7 @@ const chordData = (state=null, action) => {
   }
 }    
 
-const test = combineReducers({
+const test = combineReducersWithOuterState({
   playing,
   chordData,
   questions

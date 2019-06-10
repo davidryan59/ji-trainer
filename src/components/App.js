@@ -24,12 +24,12 @@ const getComponentInMode = mode => {
   }  
 }
 
-const App = ({ mode }) => (
+const App = obj => (
   <div className='app'>
     <div className='topline'>
       <b>Chord and Interval Trainer for Just Intonation</b> - <i>by David Ryan, 2019</i>
     </div>
-    {getComponentInMode(mode)}
+    {getComponentInMode(obj.mode)}
     {
       showStateViewer
       ?

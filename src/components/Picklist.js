@@ -1,17 +1,17 @@
 import React from 'react'
 
 
-const Picklist = ({ picklist, valueChange }) => (
+const Picklist = obj => (
   <span style={{textAlign: 'center', margin: '2px 10px'}}>
     <label>
-      {picklist.label}
+      {obj.picklist.label}
     </label>
     &nbsp;&nbsp;
     <select
-      value = {picklist.value}
-      onChange = {valueChange}
+      value = {obj.picklist.value}
+      onChange = {obj.valueChange}
     >
-      { picklist.values.map( pv => <option key={pv}>{pv}</option> ) }
+      { obj.picklist.values.map( pv => <option key={pv}>{pv}</option> ) }
     </select>
   </span>
 )

@@ -65,16 +65,24 @@ export const decayS = 0.1
 export const sustainAmp = 0.8  // attack amplitude is 1.0
 export const releaseS = 0.2
 
-// Control the number of delay channels on mixer, and what they do.
-// Resonant frequencies - mutually irrational
-const mixerDelay1Hz = 314.159265
-const mixerDelay2Mult = 3 ** 0.5 - 1            // Sqrt(3) - 1  = 0.732...
-const mixerDelay3Mult = (5 ** 0.5 - 1) * 0.5    // Golden ratio = 0.618...
-// Gains for each delay channel
-const mixerGain1 = 0.45
-const mixerGain2 = 0.35
-const mixerGain3 = 1 - mixerGain1 - mixerGain2  // When sum of gains is 1, DC on signal will be eliminated.
-// Arrays to export final delay setup
-export const mixerDelayResHzArray = [mixerDelay1Hz, mixerDelay1Hz * mixerDelay2Mult, mixerDelay1Hz * mixerDelay3Mult]
-export const mixerDelayGainArray = [-mixerGain1, -mixerGain2, -mixerGain3]
-// These two arrays must have the same length.
+// MIXER CONTROL - Control the number of delay channels on mixer, and their parameters
+// mixerDelayArray is nested array. Each element is of form [gain, resonantFreqHz]
+// Each delay of a certain length reinforces (resonates) some frequencies, and cancels others
+// The resonant frequency is the lowest frequency reinforced, it doubles in amplitude.
+//
+// Resonant frequencies - ought to be mutually irrational
+// so as to let every frequency through to some extent
+const pi = 3.14159265
+const baseResonantFreqHz = pi * 15      // 47.123... 
+const sqrt2 = 2 ** 0.5                  //  1.414...
+const goldenRatio = (5 ** 0.5 + 1) / 2  //  1.618...
+const sqrt3 = 3 ** 0.5                  //  1.732...
+
+export const mixerDelayArray = [
+  [-0.25, baseResonantFreqHz],
+  [-0.25, baseResonantFreqHz * sqrt2],
+  [-0.25, baseResonantFreqHz * goldenRatio],
+  [-0.25, baseResonantFreqHz * sqrt3]
+]
+// When the gains add up to -1, the DC component is eliminated,
+// which is highly desirable since FM synthesis usually produces some DC component.

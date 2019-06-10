@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import SetupTest from './SetupTest'
 import * as cts from '../constants'
 import { getSummary } from '../controls'
-import { validateChordData } from '../chords'
+import { validateChordData } from '../models/chord'
 
 
 const mapStateToProps = (state, ownProps) => {
   const [canStartTest, validationMessage] = validateChordData(state.test.chordData)
+  const setupSummary = getSummary(state.setup)
   return {
     notesInChordPicklist: state.setup[cts.NOTES_IN_CHORD],
     maxComplexityPicklist: state.setup[cts.MAX_COMPLEXITY],
@@ -15,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
     maxIntervalPicklist: state.setup[cts.MAX_INTERVAL],
     minChordIntervalPicklist: state.setup[cts.MIN_CHORD_INTERVAL],
     maxChordIntervalPicklist: state.setup[cts.MAX_CHORD_INTERVAL],
-    setupSummary: getSummary(state.setup),
+    setupSummary,
     canStartTest,
     validationMessage
   }
