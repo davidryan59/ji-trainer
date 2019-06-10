@@ -9,6 +9,10 @@ export const showStateViewer = true
 export const windowSizeChangeMinDiff = 20
 
 // Test setup parameters
+export const maxCentsTarget = 300
+export const initialCentsTarget = 100
+export const correctFactor = 0.9
+export const incorrectFactor = 1.2
 export const minChordsForTest = 50
 export const defaultMaxChords = 10000
 export const defaultMaxLoops = 500000        // Should take only a fraction of a second to run.

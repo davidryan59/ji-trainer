@@ -10,10 +10,13 @@ import { FINISH_TEST } from '../constants'
 
 const TakeTest = obj => (
   <Column className='ModeComponent' horizontal='center'>
+    Chords found {obj.chordData.chords.length}, 
+    Complexity up to   {obj.chordData.currentComplexity}, 
+    Loops {obj.chordData.currentLoops}
     <Row>
       <PicklistC picklist={obj.playbackSpeedPicklist} />
     </Row>
-    Put stats here: number of chords, number of ticks, max complexity...
+    Difficulty: cents difference of {obj.targetCents.toFixed(2)}.
     {
       obj.questions.map( question =>
         <QuestionC

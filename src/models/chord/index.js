@@ -77,14 +77,16 @@ export const validateChordData = chordData => {
 
 
 // Generate new chords
-
+let generateId = 1
 export const getChordData = options => {
   const data = {...options}
+  data.generateId = generateId++
   for (let cy=0; cy<=data.maxComplexity || prm.defaultMaxComplexity; cy++) {
     data.currentComplexity = cy
     addChords(data)
     if (hasFinished(data)) break
   }
+  console.log('Chord data', data)
   return data
 }
 

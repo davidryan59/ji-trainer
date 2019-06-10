@@ -65,9 +65,40 @@ const chordData = (state=null, action, topState) => {
     default:
       return state
   }
-}    
+}
+
+const updateTargetCents = (state, action, topState) => {
+  const qNum = action.qNum
+  const aNumInput = action.aNum
+  const question = topState.test.questions.find( q => q.qNum === qNum )
+  const aNumCorrect = question.correctAnswer
+  let newFactor = aNumInput === aNumCorrect ? prm.correctFactor : prm.incorrectFactor
+  newFactor = Math.min(newFactor, prm.maxCentsTarget)
+  return state * newFactor
+}
+
+const targetCentsBP = (state, action, topState) => {
+  switch (action.id) {
+    case cts.START_TEST:
+      return prm.initialCentsTarget
+    case cts.SELECT_ANSWER:
+      return updateTargetCents(state, action, topState)
+    default:
+      return state
+  }
+}
+
+const targetCents = (state=prm.initialCentsTarget, action, topState) => {
+  switch (action.type) {
+    case cts.BUTTON_PRESS:
+      return targetCentsBP(state, action, topState)
+    default:
+      return state
+  }
+}
 
 const test = combineReducersWithOuterState({
+  targetCents,
   playing,
   chordData,
   questions

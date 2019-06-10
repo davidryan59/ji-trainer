@@ -7,8 +7,7 @@ const setupObjectStore = (objStore, reduxStore) => {
   setupContexts(objStore, reduxStore)
   setupMixer(objStore, reduxStore)
   objStore.setup = true
-  console.log('Object store:')
-  console.log(objStore)
+  console.log('Object store', objStore)
 }
 
 export default setupObjectStore
