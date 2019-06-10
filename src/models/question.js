@@ -1,6 +1,5 @@
 import { randomIntegerBetween } from '../maths'
 import * as chd from './chord'
-import * as cts from '../constants'
 import * as prm from '../_params'
 
 
@@ -19,32 +18,26 @@ const getSuitableSubset = (chordArray, numberOfAnswers) => {
 
 let nextQuestionNumber = 1
 
-export const getNextQuestion = (actionData, qNumInput) => {
+export const getNextQuestion = (topState, qNumInput) => {
   // If qNumInput is used, it resets question numbering.
-  // Otherwise, leave it blank.
+  // Otherwise, leave it blank.  
   let qNum = nextQuestionNumber++
   if (qNumInput) {
     qNum = qNumInput
     nextQuestionNumber = qNumInput + 1
   }
+  
+  // Variable to hold question as it is constructed
   const numberOfAnswers = prm.defaultNumberOfAnswers
-  const notesInChord = actionData[cts.NOTES_IN_CHORD] || prm.defaultNotesInChord
   const result = {
     qNum,
     userAnswer: null,
     correctAnswer: randomIntegerBetween(1, numberOfAnswers),
     answers: []
-  }
-  const chordArray = chd.getChordData({
-    notesInChord,
-    maxComplexity: actionData[cts.MAX_COMPLEXITY],
-    minInterval: actionData[cts.MIN_INTERVAL],
-    maxInterval: actionData[cts.MAX_INTERVAL],
-    minChordInterval: actionData[cts.MIN_CHORD_INTERVAL],
-    maxChordInterval: actionData[cts.MAX_CHORD_INTERVAL],
-  }).chords
-  console.log(`${chordArray.length} chords fit these criteria`)
-  // console.log(chordArray)
+  }  
+  
+  // Access set of all chords, construct set of answers to match current difficulty
+  const chordArray = topState.test.chordData.chords
   const chordArrayChosenSubset = getSuitableSubset(chordArray, numberOfAnswers)
   for (let aNum=1; aNum<=numberOfAnswers; aNum++) {
     const chord = chordArrayChosenSubset[aNum-1]

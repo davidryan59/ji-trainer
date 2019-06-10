@@ -52,11 +52,11 @@ const SetupTest = obj => (
       !obj.canStartTest
       ?
       <Row horizontal='center'>
-        <ButtonC id={cts.VALIDATE_TEST} label={'Generate chords'} data={obj.setupSummary} />
+        <ButtonC id={cts.VALIDATE_TEST} label={'Generate chords'} data={obj.controlsSummary} />
       </Row>
       :
       <Row horizontal='center'>
-        <ButtonC id={cts.START_TEST} label={'Start test'} data={obj.setupSummary} />
+        <ButtonC id={cts.START_TEST} label={'Start test'} />
       </Row>
     }
   </Column>

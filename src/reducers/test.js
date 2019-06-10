@@ -15,13 +15,13 @@ const playing = (state=false, action, topState) => {
 const questionsBP = (state, action, topState) => {
   switch (action.id) {
     case cts.START_TEST:
-      return [getNextQuestion(action, 1)]
+      return [getNextQuestion(topState, 1)]
     case cts.PLAY_AUDIO:
       return [...state.map(question => 
         question.qNum === action.qNum && !question.hasPlayed ? {...question, hasPlayed: true} : question
       )]
     case cts.SELECT_ANSWER:
-      return [getNextQuestion(action), ...state.map(question =>
+      return [getNextQuestion(topState), ...state.map(question =>
         question.qNum === action.qNum ? {...question, userAnswer: action.aNum} : question
       )].splice(0, prm.testMaxQuestionsToDisplay)
     default:

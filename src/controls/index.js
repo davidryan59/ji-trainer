@@ -88,9 +88,9 @@ export const getPicklistNumericValue = picklist =>
   Number.parseFloat((picklist.nums || picklist.values)[picklist.values.findIndex( val => val == picklist.value )]) // eslint-disable-line eqeqeq
   // e.g. '2' == 2 when looking up picklist values
   
-export const getSummary = controlsObj => {
+export const getControlsSummary = controlsState => {
   const result = {}
-  Object.entries(controlsObj).forEach( ([controlId, controlObj]) => {
+  Object.entries(controlsState).forEach( ([controlId, controlObj]) => {
     result[controlId] = controlObj.type === cts.PICKLIST ? getPicklistNumericValue(controlObj) : controlObj.value
   })
   return result
