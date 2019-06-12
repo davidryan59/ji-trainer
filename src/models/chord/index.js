@@ -33,33 +33,33 @@ export const utonality = chordArray => -otonality(chordArray) || 0    // OR cond
 
 // Views on chords
 
-export const chordArrayToCents = chordArray => {
+export const chordToCentsText = chord => {
   let result = ''
-  for (let i=1; i<chordArray.length; i++) {
-    const integerCents = Math.round(ratioToCents(chordArray[i] / chordArray[i-1]))
+  for (let i=1; i<chord.length; i++) {
+    const integerCents = Math.round(ratioToCents(chord[i] / chord[i-1]))
     result += integerCents + ',' + nbsp
   }
   return result.slice(0, result.length - 2) + nbsp + 'c'
 }
 
-export const chordArrayToOtonalCompoundRatio = chordArray => {
-  const gcd = arrayGcd(chordArray)
-  const otonalArray = chordArray.map( elt => elt / gcd )
-  return otonalArray.toString().replace(/,/g,':')
+export const chordToOtonalText = chord => {
+  const gcd = arrayGcd(chord)
+  const chordOtonal = chord.map( elt => elt / gcd )
+  return chordOtonal.toString().replace(/,/g,':')
 }
 
-export const chordArrayToUtonalCompoundRatio = chordArray => {
-  const lcm = arrayLcm(chordArray)
-  const utonalArray = chordArray.map( elt => lcm / elt )
-  return chordArrayToOtonalCompoundRatio(utonalArray)
+export const chordToUtonalText = chord => {
+  const lcm = arrayLcm(chord)
+  const chordUtonal = chord.map( elt => lcm / elt )
+  return chordToOtonalText(chordUtonal)
 }
 
-export const displayChordArrayRatios = chordArray =>
-  utonality(chordArray) > 0
-  ? [chordArrayToUtonalCompoundRatio(chordArray), true]
-  : [chordArrayToOtonalCompoundRatio(chordArray), false]
+export const chordToRatioDisplayInfo = chord =>
+  utonality(chord) > 0
+  ? [chordToUtonalText(chord), true]
+  : [chordToOtonalText(chord), false]
 
-export const validateChordData = chordData => {
+export const calcCanStartTest = chordData => {
   if (!chordData || !chordData.chords) return [false, '']    // Chord data not generated, exit silently
   const chordArray = chordData.chords
   const len = chordArray.length
@@ -76,7 +76,7 @@ export const validateChordData = chordData => {
 }
 
 
-// Generate new chords
+// Generate new chords according to supplied options
 let generateId = 1
 export const getChordData = options => {
   const data = {...options}
@@ -109,62 +109,59 @@ export const getChordData = options => {
 
 // Chord calculations
 
-const getStandardisedPitchArray = chordArray => {
-  const pitchArray = chordArray.map( elt => Math.log(elt) / Math.log(2) )
-  const sumPitch = pitchArray.reduce( (acc, curr) => acc + curr )
-  const avgPitch = sumPitch / chordArray.length
-  const standardPitchArray = pitchArray.map( elt => elt - avgPitch )
-  return standardPitchArray  
+// Turns chord(Array) such as [2, 3, 4]
+// into a standard pitch array similar to [-0.6, 0.1, 0.5]
+export const getChordPitches = chord => {
+  let chordP = chord.map( elt => Math.log(elt) / Math.log(2) )
+  const sumPitch = chordP.reduce( (acc, curr) => acc + curr )
+  const avgPitch = sumPitch / chord.length
+  chordP = chordP.map( elt => elt - avgPitch )
+  return chordP  
 }
 
-const getPitchArrayDistanceCents = (pitch1, pitch2) => {
-  const pitchDiff = pitch1.map( (elt1, idx) => elt1 - pitch2[idx] )
-  const sumSq = pitchDiff.reduce( (acc, curr) => acc + curr * curr, 0 )
-  const result = sumSq ** 0.5
-  return 1200 * result
+// Measures the distance (in cents) between two standard pitch arrays
+// It is Pythagorean distance between standard pitches,
+// divided by number of degrees of freedom (which is N-1 for an N note chord)
+export const getDistanceCents = (chordP1, chordP2) => {
+  const degreesOfFreedom = chordP1.length - 1
+  const pitchesDiff = chordP1.map( (elt1, idx) => elt1 - chordP2[idx] )
+  const sumSq = pitchesDiff.reduce( (acc, curr) => acc + curr * curr, 0 )
+  const result = 1200 * (sumSq ** 0.5) / Math.max(1, degreesOfFreedom)
+  return result
 }
-
-// const getChordDistanceCents = (chord1, chord2) => {
-//   // Assuming that:
-//   // - chord elements are numeric and in ascending order
-//   // - chord lengths are the same
-//   const pitch1 = getStandardisedPitchArray(chord1)
-//   const pitch2 = getStandardisedPitchArray(chord2)
-//   return getPitchArrayDistanceCents(pitch1, pitch2)
-// }
 
 // For next two functions, assuming:
 // - each element of chordArray is a chord, a numeric array in ascending order
 // - each chord has the same length
 
-export const getMinCentsBetweenAnyTwoChords = chordArray => {
-  const pitchArray = chordArray.map( chord => getStandardisedPitchArray(chord) )
+export const getMinDistanceCents = chordArray => {
+  const pitchArray = chordArray.map( chord => getChordPitches(chord) )
   const numChords = pitchArray.length
   let minDistAll = 1e15
   for (let i=0; i<numChords-1; i++) {
     for (let j=i+1; j<numChords; j++) {
-      const newDist = getPitchArrayDistanceCents(pitchArray[i], pitchArray[j])  // newDist :D
+      const newDist = getDistanceCents(pitchArray[i], pitchArray[j])  // newDist :D
       minDistAll = Math.min(minDistAll, newDist)
     }
   }
   return minDistAll
 }
 
-export const getMinCentsFromFixedChord = (chordArray, idx) => {
-  const pitchArray = chordArray.map( chord => getStandardisedPitchArray(chord) )
+export const getMinDistanceCentsFrom = (chordArray, idx) => {
+  const pitchArray = chordArray.map( chord => getChordPitches(chord) )
   const pitch = pitchArray[idx]
   const pitchArrayFilter = pitchArray.filter( (elt, fidx) => idx !== fidx )
-  const result = pitchArrayFilter.reduce( (acc, currPitch) => Math.min(acc, getPitchArrayDistanceCents(pitch, currPitch)), 1e15 )
+  const result = pitchArrayFilter.reduce( (acc, currPitch) => Math.min(acc, getDistanceCents(pitch, currPitch)), 1e15 )
   return result
 }
 
-export const getChordSizeMeasure = chord => {
+export const chordSortingFunction = chord => {
   // Measure (used to compare multiple chords) is based on
   // transposing chords to have same bottom note
   // and measuring how much higher all the other notes are.
-  let pitches = getStandardisedPitchArray(chord)
-  const firstElt = pitches[0]
-  pitches = pitches.map( elt => elt - firstElt )  // Now its based at zero
-  const result = pitches.reduce( (acc, curr) => acc + curr )
+  let chordP = getChordPitches(chord)
+  const firstElt = chordP[0]
+  chordP = chordP.map( elt => elt - firstElt )  // Now its based at zero
+  const result = chordP.reduce( (acc, curr) => acc + curr )
   return result
 }

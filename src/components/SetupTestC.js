@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import SetupTest from './SetupTest'
 import * as cts from '../constants'
 import { getControlsSummary } from '../controls'
-import { validateChordData } from '../models/chord'
+import { calcCanStartTest } from '../models/chord'
 
 
 const mapStateToProps = (state, ownProps) => {
-  const [canStartTest, validationMessage] = validateChordData(state.test.chordData)
+  const [canStartTest, validationMessage] = calcCanStartTest(state.test.chordData)
   const controlsSummary = getControlsSummary(state.setup)
   return {
     notesInChordPicklist: state.setup[cts.NOTES_IN_CHORD],

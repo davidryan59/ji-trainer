@@ -9,12 +9,12 @@ import { toIntegerPercentText } from '../maths'
 const mapStateToProps = (state, ownProps) => {
   const answer = ownProps.answer
   const chord = answer.chord
-  const [displayRatios, isUtonal] = chd.displayChordArrayRatios(chord)
+  const [displayRatios, isUtonal] = chd.chordToRatioDisplayInfo(chord)
   return {
     displayRatios,
     isUtonal,
     noteCount: chord.length,
-    displayCents: chd.chordArrayToCents(chord),
+    displayCents: chd.chordToCentsText(chord),
     cy: chd.complexity(chord),
     otc: toIntegerPercentText(chd.otonality(chord)),
     utc: toIntegerPercentText(chd.utonality(chord)),

@@ -72,9 +72,10 @@ const updateTargetCents = (state, action, topState) => {
   const aNumInput = action.aNum
   const question = topState.test.questions.find( q => q.qNum === qNum )
   const aNumCorrect = question.correctAnswer
-  let newFactor = aNumInput === aNumCorrect ? prm.correctFactor : prm.incorrectFactor
-  newFactor = Math.min(newFactor, prm.maxCentsTarget)
-  return state * newFactor
+  const newFactor = aNumInput === aNumCorrect ? prm.correctFactor : prm.incorrectFactor
+  const newState = Math.min(state * newFactor, prm.maxCentsTarget)
+  console.log(newState)
+  return newState
 }
 
 const targetCentsBP = (state, action, topState) => {

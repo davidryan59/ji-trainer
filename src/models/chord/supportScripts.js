@@ -1,5 +1,6 @@
 import * as prm from '../../_params'
 
+// dt is chordData
 
 export const validateData = dt => {
   dt.chords = dt.chords || []

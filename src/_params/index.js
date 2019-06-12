@@ -1,21 +1,23 @@
 import { last, getFloatFromFractionString } from '../maths'   // eslint-disable-line no-unused-vars
 
 // Show the state viewer? (Developer option)
-// export const showStateViewer = false
-export const showStateViewer = true
+export const showStateViewer = false
+// export const showStateViewer = true
 
 // Minimum number of pixels change in window size (vertically or horizontally)
 // that causes a window change size action to be dispatched
 export const windowSizeChangeMinDiff = 20
 
 // Test setup parameters
-export const maxCentsTarget = 300
-export const initialCentsTarget = 100
-export const correctFactor = 0.9
-export const incorrectFactor = 1.2
+export const randomFilterPercentage = 10   // Remove some chords at random for each question
+export const surfaceLayerProportion = 2.00 // 0.25 means surface layer has 1/4 the volume of interior
+export const maxCentsTarget = 100          // per degree freedom. 3:4 has 1 degree, 4:5:6 has 2 degrees, etc.
+export const initialCentsTarget = 50
+export const correctFactor = 0.8
+export const incorrectFactor = 1.15
 export const minChordsForTest = 50
 export const defaultMaxChords = 10000
-export const defaultMaxLoops = 500000        // Should take only a fraction of a second to run.
+export const defaultMaxLoops = 500000   // Should take only a fraction of a second to run.
 
 // Picklist setups
 export const notesInChordArray = [2, 3, 4, 5, 6].reverse()
