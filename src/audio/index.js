@@ -16,10 +16,7 @@ export const playAudioForQuestion = (data, getState, objStore) => {
   const answer = question.answers.find(answer => answer.aNum === aNumCorrect)
   // Set up the chord frequencies
   const chord = answer.chord
-  const chordTotalRatio = chord[chord.length - 1] / chord[0]
-  const chordLimitRatio = prm.playNoteMaxHz / prm.playNoteMinHz
-  const baseRatio = Math.max(1, chordLimitRatio / chordTotalRatio)   // Specifies maximum random shift in frequency ratio
-  const baseFreqHz = prm.playNoteMinHz * (baseRatio ** Math.random()) / chord[0]
+  const baseFreqHz = data.baseFreqHz  
   const chordHz = chord.map( num => baseFreqHz * num)
   // Set up audio context variables
   const aCtx = objStore.ctx.audio

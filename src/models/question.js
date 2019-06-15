@@ -2,6 +2,20 @@ import { randomIntegerBetween } from '../maths'
 import * as chd from './chord'
 import * as prm from '../_params'
 
+export const getNextBaseFreqHz = question => {
+  // If question has been answered, don't change its playback frequency
+  if (question.userAnswer && question.baseFreqHz) return question.baseFreqHz
+  // Otherwise going to construct a random frequency to play at
+  const answer = question.answers.find( ans => ans.aNum === question.correctAnswer )
+  // Set up the chord frequencies
+  const chord = answer.chord
+  const chordTotalRatio = chord[chord.length - 1] / chord[0]
+  const chordLimitRatio = prm.playNoteMaxHz / prm.playNoteMinHz
+  const baseRatio = Math.max(1, chordLimitRatio / chordTotalRatio)   // Specifies maximum random shift in frequency ratio
+  const baseFreqHz = prm.playNoteMinHz * (baseRatio ** Math.random()) / chord[0]
+  return baseFreqHz
+}
+
 const bandingPotentialFunction = (chordP1, chordP2, bandStartCents, bandEndCents, extPot, intPot) => {
   // Create a potential function with 3 cases:
   // SURFACE (band start to band end)
@@ -15,12 +29,12 @@ const bandingPotentialFunction = (chordP1, chordP2, bandStartCents, bandEndCents
   : 0
 }
 
-const getSubsetOfChordsForQuestion = (chordArray, numberOfAnswers, targetCents) => {
+const getSubsetOfChordsForQuestion = (chordsArray, numberOfAnswers, targetCents) => {
   console.log('')
   console.log(`Constructing question by choosing suitable subset of chords as answers`)
   
-  const countChords = chordArray.length
-  const notesInChord = chordArray[0].length
+  const countChords = chordsArray.length
+  const notesInChord = chordsArray[0].length
   console.log(`There are ${countChords} chords in total, each has ${notesInChord} notes, and there will be ${numberOfAnswers} answers`)
   
   const targetOuterCents = targetCents * (1 + prm.surfaceLayerProportion) ** (1 / (notesInChord - 1))
@@ -28,7 +42,7 @@ const getSubsetOfChordsForQuestion = (chordArray, numberOfAnswers, targetCents) 
   
   // For each chord, convert it to standard pitches (for distance calculations)
   // and also store its (log) complexity (for giving preference to low complexity)
-  let chordsWithMeasures = chordArray.map( chord => {       // chord:   array of positive integers
+  let chordsWithMeasures = chordsArray.map( chord => {       // chord:   array of positive integers
     const pitches = chd.getChordPitches(chord)  // pitches: array of decimals
     const lcy = chd.logComplexity(chord)                      // lcy:     decimal, non-negative
     const rand = Math.random()                                // rand:    random decimal between 0 and 1  
@@ -158,9 +172,9 @@ export const getNextQuestion = (topState, qNumInput) => {
   }  
   
   // Access set of all chords, construct set of answers to match current difficulty
-  const chordArray = topState.test.chordData.chords
+  const chordsArray = topState.test.chordData.chords
   const targetCents = topState.test.targetCents
-  const chordArrayChosenSubset = getSubsetOfChordsForQuestion(chordArray, numberOfAnswers, targetCents)
+  const chordArrayChosenSubset = getSubsetOfChordsForQuestion(chordsArray, numberOfAnswers, targetCents)
   for (let aNum=1; aNum<=numberOfAnswers; aNum++) {
     const chord = chordArrayChosenSubset[aNum-1]
     result.answers.push({qNum, aNum, chord})

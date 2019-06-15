@@ -17,7 +17,7 @@ export const correctFactor = 0.8
 export const incorrectFactor = 1.15
 export const minChordsForTest = 50
 export const defaultMaxChords = 10000
-export const defaultMaxLoops = 500000   // Should take only a fraction of a second to run.
+export const defaultMaxLoops = 500000      // Should take only a fraction of a second to run.
 
 // Picklist setups
 export const notesInChordArray = [2, 3, 4, 5, 6].reverse()

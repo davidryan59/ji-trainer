@@ -18,7 +18,9 @@ const questionsBP = (state, action, topState) => {
       return [getNextQuestion(topState, 1)]
     case cts.PLAY_AUDIO:
       return [...state.map(question => 
-        question.qNum === action.qNum && !question.hasPlayed ? {...question, hasPlayed: true} : question
+        question.qNum === action.qNum
+        ? {...question, hasPlayed: true, baseFreqHz: action.baseFreqHz}
+        : question
       )]
     case cts.SELECT_ANSWER:
       return [getNextQuestion(topState), ...state.map(question =>

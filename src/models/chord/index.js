@@ -14,21 +14,21 @@ import { hasFinished } from './supportScripts'
 // Mathematical functions on chords
 // see 'Mathematical Harmony Analysis' at https://arxiv.org/pdf/1603.08904.pdf
 export const log2 = num => Math.log(num) / Math.log(2)
-export const complexity = chordArray => arrayLcm(chordArray) / arrayGcd(chordArray)
-export const logComplexity = chordArray => log2(complexity(chordArray))
-const sumLogChord = chordArray => chordArray.reduce(
+export const complexity = chord => arrayLcm(chord) / arrayGcd(chord)
+export const logComplexity = chord => log2(complexity(chord))
+const sumLogChord = chord => chord.reduce(
   (acc, curr) => acc + log2(curr)
 , 0 )
-export const logMidpoint = chordArray => (sumLogChord(chordArray) / chordArray.length) - log2(arrayGcd(chordArray))
-export const otonality = chordArray => {
-  const n = chordArray.length
+export const logMidpoint = chord => (sumLogChord(chord) / chord.length) - log2(arrayGcd(chord))
+export const otonality = chord => {
+  const n = chord.length
   if (n<3) return 0
-  const lcy = logComplexity(chordArray)
-  const lm = logMidpoint(chordArray)
+  const lcy = logComplexity(chord)
+  const lm = logMidpoint(chord)
   const result = (n / (n-2)) * (lcy - 2 * lm) / lcy
   return result  
 }
-export const utonality = chordArray => -otonality(chordArray) || 0    // OR condition maps -0 to 0
+export const utonality = chord => -otonality(chord) || 0    // OR condition maps -0 to 0
 
 
 // Views on chords
@@ -61,8 +61,8 @@ export const chordToRatioDisplayInfo = chord =>
 
 export const calcCanStartTest = chordData => {
   if (!chordData || !chordData.chords) return [false, '']    // Chord data not generated, exit silently
-  const chordArray = chordData.chords
-  const len = chordArray.length
+  const chordsArray = chordData.chords
+  const len = chordsArray.length
   const chordFoundMessage = `${len} chord${len===1?'':'s'} found`
   let canStartTest = false
   let validationMessage = ''
@@ -131,27 +131,27 @@ export const getDistanceCents = (chordP1, chordP2) => {
 }
 
 // For next two functions, assuming:
-// - each element of chordArray is a chord, a numeric array in ascending order
+// - each element of chordsArray is a chord, a numeric array in ascending order
 // - each chord has the same length
 
-export const getMinDistanceCents = chordArray => {
-  const pitchArray = chordArray.map( chord => getChordPitches(chord) )
-  const numChords = pitchArray.length
+export const getMinDistanceCents = chordsArray => {
+  const chordPitchesArray = chordsArray.map( chord => getChordPitches(chord) )
+  const numChords = chordPitchesArray.length
   let minDistAll = 1e15
   for (let i=0; i<numChords-1; i++) {
     for (let j=i+1; j<numChords; j++) {
-      const newDist = getDistanceCents(pitchArray[i], pitchArray[j])  // newDist :D
+      const newDist = getDistanceCents(chordPitchesArray[i], chordPitchesArray[j])  // newDist :D
       minDistAll = Math.min(minDistAll, newDist)
     }
   }
   return minDistAll
 }
 
-export const getMinDistanceCentsFrom = (chordArray, idx) => {
-  const pitchArray = chordArray.map( chord => getChordPitches(chord) )
-  const pitch = pitchArray[idx]
-  const pitchArrayFilter = pitchArray.filter( (elt, fidx) => idx !== fidx )
-  const result = pitchArrayFilter.reduce( (acc, currPitch) => Math.min(acc, getDistanceCents(pitch, currPitch)), 1e15 )
+export const getMinDistanceCentsFrom = (chordsArray, idx) => {
+  const chordPitchesArray = chordsArray.map( chord => getChordPitches(chord) )
+  const chordP = chordPitchesArray[idx]
+  const filteredArray = chordPitchesArray.filter( (elt, fidx) => idx !== fidx )
+  const result = filteredArray.reduce( (acc, currPitch) => Math.min(acc, getDistanceCents(chordP, currPitch)), 1e15 )
   return result
 }
 

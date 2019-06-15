@@ -6,6 +6,7 @@ import AnswerC from './AnswerC'
 import QuestionInfoC from './QuestionInfoC'
 
 import { PLAY_AUDIO } from '../constants'
+import { getNextBaseFreqHz } from '../models/question'
 
 
 const calculateCssClass = uNum => uNum ? 'QuestionAnswered' : 'QuestionNotAnswered'
@@ -19,7 +20,7 @@ const Question = obj => (
       <ButtonC
         id={PLAY_AUDIO}
         charCodeArray={['9654']}
-        data={{qNum:obj.question.qNum}}
+        data={{qNum:obj.question.qNum, baseFreqHz:getNextBaseFreqHz(obj.question)}}
         disabled={!obj.canPlay}
         inlineStyles={{width:'35px'}}
       />
