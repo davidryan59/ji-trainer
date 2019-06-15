@@ -1,22 +1,22 @@
-import { PLAYBACK_SPEED } from '../constants'
 import { getPicklistNumericValue } from '../controls'
 
 import * as prm from '../_params'
+import * as cts from '../constants'
 
 
 export const playAudioForQuestion = (data, getState, objStore) => {
   const state = getState()
   // Get control parameters from state
-  const totalPlayTimeS = getPicklistNumericValue(state.setup[PLAYBACK_SPEED])
+  const totalPlayTimeS = getPicklistNumericValue(state.setup[cts.PLAYBACK_SPEED])
   // Obtain the correct question and answer to play
   const qNum = data.qNum
   console.log(`Playing audio for Q${qNum}`)
   const question = state.test.questions.find(question => question.qNum === qNum)
-  const aNumCorrect = question.correctAnswer
-  const answer = question.answers.find(answer => answer.aNum === aNumCorrect)
+  const aNum = data.aNum || question.correctAnswer   // If no answer specified in data, play audio for correct answer
+  const answer = question.answers.find(answer => answer.aNum === aNum)
   // Set up the chord frequencies
   const chord = answer.chord
-  const baseFreqHz = data.baseFreqHz  
+  const baseFreqHz = data.lowestFreqHz / chord[0]  
   const chordHz = chord.map( num => baseFreqHz * num)
   // Set up audio context variables
   const aCtx = objStore.ctx.audio

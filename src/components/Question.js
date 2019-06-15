@@ -6,7 +6,7 @@ import AnswerC from './AnswerC'
 import QuestionInfoC from './QuestionInfoC'
 
 import { PLAY_AUDIO } from '../constants'
-import { getNextBaseFreqHz } from '../models/question'
+import { getLowestNoteFreqHz } from '../models/question'
 
 
 const calculateCssClass = uNum => uNum ? 'QuestionAnswered' : 'QuestionNotAnswered'
@@ -16,15 +16,21 @@ const Question = obj => (
     <Column className='QuestionNumber' flex='2'>
       Q{obj.question.qNum}
     </Column>
-    <Column flex='3'>
-      <ButtonC
-        id={PLAY_AUDIO}
-        charCodeArray={['9654']}
-        data={{qNum:obj.question.qNum, baseFreqHz:getNextBaseFreqHz(obj.question)}}
-        disabled={!obj.canPlay}
-        inlineStyles={{width:'35px'}}
-      />
-    </Column>
+    {
+      !obj.question.userAnswer
+      ?
+      <Column flex='3'>
+        <ButtonC
+          id={PLAY_AUDIO}
+          charCodeArray={['9654']}
+          data={{qNum:obj.question.qNum, lowestFreqHz:getLowestNoteFreqHz(obj.question)}}
+          disabled={!obj.canPlay}
+          inlineStyles={{width:'35px'}}
+        />
+      </Column>
+      :
+      null
+    }
     {
       obj.question.answers.map( answer =>
         <AnswerC
@@ -32,6 +38,7 @@ const Question = obj => (
           userAnswerNum={obj.question.userAnswer}
           correctAnswerNum={obj.question.correctAnswer}
           questionHasPlayed={obj.question.hasPlayed}
+          lowestFreqHz={obj.question.lowestFreqHz}
           answer={answer}
         />
       )

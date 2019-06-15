@@ -2,9 +2,9 @@ import { randomIntegerBetween } from '../maths'
 import * as chd from './chord'
 import * as prm from '../_params'
 
-export const getNextBaseFreqHz = question => {
+export const getLowestNoteFreqHz = question => {
   // If question has been answered, don't change its playback frequency
-  if (question.userAnswer && question.baseFreqHz) return question.baseFreqHz
+  if (question.userAnswer && question.lowestFreqHz) return question.lowestFreqHz
   // Otherwise going to construct a random frequency to play at
   const answer = question.answers.find( ans => ans.aNum === question.correctAnswer )
   // Set up the chord frequencies
@@ -12,8 +12,8 @@ export const getNextBaseFreqHz = question => {
   const chordTotalRatio = chord[chord.length - 1] / chord[0]
   const chordLimitRatio = prm.playNoteMaxHz / prm.playNoteMinHz
   const baseRatio = Math.max(1, chordLimitRatio / chordTotalRatio)   // Specifies maximum random shift in frequency ratio
-  const baseFreqHz = prm.playNoteMinHz * (baseRatio ** Math.random()) / chord[0]
-  return baseFreqHz
+  const lowestFreqHz = prm.playNoteMinHz * (baseRatio ** Math.random())
+  return lowestFreqHz
 }
 
 const bandingPotentialFunction = (chordP1, chordP2, bandStartCents, bandEndCents, extPot, intPot) => {

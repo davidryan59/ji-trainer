@@ -9,8 +9,8 @@ export const showStateViewer = false
 export const windowSizeChangeMinDiff = 20
 
 // Test setup parameters
-export const randomFilterPercentage = 10   // Remove some chords at random for each question
-export const surfaceLayerProportion = 2.00 // 0.25 means surface layer has 1/4 the volume of interior
+export const randomFilterPercentage = 20   // Remove some chords at random for each question
+export const surfaceLayerProportion = 1.5  // 0.25 means surface layer has 1/4 the volume of interior
 export const maxCentsTarget = 100          // per degree freedom. 3:4 has 1 degree, 4:5:6 has 2 degrees, etc.
 export const initialCentsTarget = 50
 export const correctFactor = 0.8
@@ -28,8 +28,7 @@ export const maxComplexityArray = [
   30, 60, 120, 240, 360, 504, 720, 1080, 1680,
   2520, 3360, 5040, 7560, 10080, 20160, 55440
 ].reverse()
-// export const defaultMaxComplexity = 1080   // 1080 = 27 * 40. Will include normal and wolf intervals.
-export const defaultMaxComplexity = 360
+export const defaultMaxComplexity = 1080   // 1080 = 27 * 40. Will include normal and wolf intervals.
 
 // Minimum interval humans can discern is around 1 cent, or roughly 1701 Hz / 1700 Hz
 // however most useful chords will contain intervals much larger than this.
@@ -45,9 +44,9 @@ export const intervalValArray = [
 ].reverse()  // Want bigger intervals at top of picklist
 export const intervalNumArray = intervalValArray.map( elt => getFloatFromFractionString(elt) )
 // Manual defaults
-export const defaultMinInterval = '10/9'
-export const defaultMaxInterval = '3/2'
-export const defaultMinChordInterval = '2/1'
+export const defaultMinInterval = '1/1'
+export const defaultMaxInterval = '2/1'
+export const defaultMinChordInterval = '1/1'
 export const defaultMaxChordInterval = '4/1'
 // // Automatic defaults
 // const minInterval = last(intervalValArray)

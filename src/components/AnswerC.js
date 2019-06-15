@@ -18,6 +18,7 @@ const mapStateToProps = (state, ownProps) => {
     cy: chd.complexity(chord),
     otc: toIntegerPercentText(chd.otonality(chord)),
     utc: toIntegerPercentText(chd.utonality(chord)),
+    canPlay: !state.test.playing,
     data: {
       qNum:answer.qNum,
       aNum:answer.aNum

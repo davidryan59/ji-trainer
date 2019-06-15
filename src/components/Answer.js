@@ -3,10 +3,13 @@ import { Column, Row } from 'simple-flexbox'
 
 import ButtonC from './ButtonC'
 
-import { SELECT_ANSWER, nbsp } from '../constants'
+import * as cts from '../constants'
 
 
-const calculateCssClass = (aNum, uNum, cNum) => {
+const calculateCssClass = obj => {
+  const aNum = obj.answer.aNum
+  const uNum = obj.userAnswerNum
+  const cNum = obj.correctAnswerNum
   if (!uNum) return 'AnswerAwaitingSelection'
   if (aNum === cNum && cNum === uNum) return 'AnswerCorrectSelection'
   if (aNum === cNum && cNum !== uNum) return 'AnswerCorrectNotSelected'
@@ -29,7 +32,7 @@ const answerStylesEnabled = {
 }
 
 const Answer = obj => (
-  <Column className={`Answer ${calculateCssClass(obj.answer.aNum, obj.userAnswerNum, obj.correctAnswerNum)}`} flex='5'>
+  <Column className={`Answer ${calculateCssClass(obj)}`} flex='5'>
     <Row vertical='center'>
       <Column style={{margin:'0px 7px'}} horizontal='center'>
         {
@@ -53,22 +56,22 @@ const Answer = obj => (
         </Row>
         <Row style={{fontSize:'80%', fontStyle:'italic'}}>
           <span style={{color:'#060'}}>
-            CY{nbsp + obj.cy}
+            CY{cts.nbsp + obj.cy}
           </span>
           {
             obj.noteCount > 2
             ?
             <span>
-            ,{nbsp}
+            ,{cts.nbsp}
               {
                 obj.isUtonal
                 ?
                 <span style={{color:'#608'}}>
-                  {`UTC${nbsp + obj.utc}`}
+                  {`UTC${cts.nbsp + obj.utc}`}
                 </span>                
                 :
                 <span style={{color:'#560'}}>
-                  {`OTC${nbsp + obj.otc}`}
+                  {`OTC${cts.nbsp + obj.otc}`}
                 </span>
               }
             </span>
@@ -77,21 +80,26 @@ const Answer = obj => (
           }
         </Row>
       </Column>
-      {
-        obj.userAnswerNum
-        ?
-        null
-        : 
-        <Column>
+      <Column>
+        {
+          obj.userAnswerNum
+          ?
           <ButtonC
-            id={SELECT_ANSWER}
+            id={cts.PLAY_AUDIO}
+            charCodeArray={['9654']}
+            data={{qNum:obj.answer.qNum, aNum:obj.answer.aNum, lowestFreqHz:obj.lowestFreqHz}}
+            disabled={!obj.canPlay}
+          />
+          : 
+          <ButtonC
+            id={cts.SELECT_ANSWER}
             charCodeArray={['10003']}
             data={obj.data}
             disabled={!obj.questionHasPlayed}
             inlineStyles={obj.questionHasPlayed ? answerStylesEnabled : answerStylesDisabled}
           />
-        </Column>
-      }
+        }
+      </Column>
     </Row>
   </Column>
 )
