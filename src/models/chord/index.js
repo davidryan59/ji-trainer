@@ -123,11 +123,14 @@ export const getChordPitches = chord => {
 // It is Pythagorean distance between standard pitches,
 // divided by number of degrees of freedom (which is N-1 for an N note chord)
 export const getDistanceCents = (chordP1, chordP2) => {
-  const degreesOfFreedom = chordP1.length - 1
-  const pitchesDiff = chordP1.map( (elt1, idx) => elt1 - chordP2[idx] )
-  const sumSq = pitchesDiff.reduce( (acc, curr) => acc + curr * curr, 0 )
-  const result = 1200 * (sumSq ** 0.5) / Math.max(1, degreesOfFreedom)
-  return result
+  const len = chordP1.length
+  let sumDiff = Math.abs((chordP1[len-1] - chordP1[0]) - (chordP2[len-1] - chordP2[0]))
+  for (let i=1; i<len; i++)
+    sumDiff += Math.abs((chordP1[i] - chordP1[i-1]) - (chordP2[i] - chordP2[i-1]))
+  // sumDiff is in octaves (1200 cents),
+  // and also double counts interval distances (e.g. chord of length 2),
+  // so must multiply by 1200 * (1/2) = 600
+  return 600 * sumDiff
 }
 
 // For next two functions, assuming:
