@@ -1,21 +1,21 @@
 import { connect } from 'react-redux'
 
-import Picklist from '../components/Picklist'
+import Checkbox from '../components/Checkbox'
 import { getThunk } from '../actions'
-import { SET_PICKLIST } from '../constants'
+import { SET_CHECKBOX } from '../constants'
 
 
 const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  valueChange: e => dispatch(getThunk(SET_PICKLIST, {
-    id: ownProps.picklist.id,
-    value: e.target.value, ...ownProps.picklist.data
+  valueChange: e => dispatch(getThunk(SET_CHECKBOX, {
+    id: ownProps.checkbox.id,
+    value: e.target.checked, ...ownProps.checkbox.data
   }))
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Picklist)
+)(Checkbox)

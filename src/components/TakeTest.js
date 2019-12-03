@@ -2,6 +2,7 @@ import React from 'react'
 import { Column, Row } from 'simple-flexbox'
 
 import PicklistC from './PicklistC'
+import CheckboxC from './CheckboxC'
 import QuestionC from './QuestionC'
 import ButtonC from './ButtonC'
 
@@ -15,6 +16,9 @@ const TakeTest = obj => (
     Loops {obj.chordData.currentLoops}
     <Row>
       <PicklistC picklist={obj.playbackSpeedPicklist} />
+    </Row>
+    <Row>
+      <CheckboxC checkbox={obj.utonalDisplayCheckbox} />
     </Row>
     Difficulty: cents difference of {obj.targetCents.toFixed(2)}.
     {

@@ -2,12 +2,13 @@ import { connect } from 'react-redux'
 
 import TakeTest from './TakeTest'
 
-import { PLAYBACK_SPEED } from '../constants'
+import * as cts from '../constants'
 
 
 const mapStateToProps = (state, ownProps) => ({
   targetCents: state.test.targetCents,
-  playbackSpeedPicklist: state.setup[PLAYBACK_SPEED],
+  playbackSpeedPicklist: state.setup[cts.PLAYBACK_SPEED],
+  utonalDisplayCheckbox: state.setup[cts.UTONAL_DISPLAY],
   questions: state.test.questions,
   chordData: state.test.chordData
 })

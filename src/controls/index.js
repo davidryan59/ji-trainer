@@ -10,6 +10,12 @@ import * as prm from '../_params'
 
 export const controlSetupArray = [
   {
+    type: cts.CHECKBOX,
+    id: cts.UTONAL_DISPLAY,
+    label: 'Have a bungaloo time',
+    value: true
+  },
+  {
     type: cts.PICKLIST,
     id: cts.NOTES_IN_CHORD,
     label: 'Notes in chord',

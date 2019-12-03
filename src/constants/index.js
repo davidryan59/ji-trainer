@@ -7,6 +7,7 @@ export const MARK_TEST = 'MARK_TEST'
 // Action types
 export const WINDOW_RESIZE = 'WINDOW_RESIZE'
 export const SET_PICKLIST = 'SET_PICKLIST'
+export const SET_CHECKBOX = 'SET_CHECKBOX'
 export const BUTTON_PRESS = 'BUTTON_PRESS'
 export const AUDIO_ENDED = 'AUDIO_ENDED'
 
@@ -19,12 +20,14 @@ export const FINISH_TEST = 'FINISH_TEST'
 export const FINISH_REVIEW = 'FINISH_REVIEW'
 
 // Control types
+export const CHECKBOX = 'CHECKBOX'
 export const PICKLIST = 'PICKLIST'
 
 // Control ids
 export const MAX_COMPLEXITY = 'MAX_COMPLEXITY'
 export const NOTES_IN_CHORD = 'NOTES_IN_CHORD'
 export const PLAYBACK_SPEED = 'PLAYBACK_SPEED'
+export const UTONAL_DISPLAY = 'UTONAL_DISPLAY'
 export const MIN_INTERVAL = 'MIN_INTERVAL'
 export const MAX_INTERVAL = 'MAX_INTERVAL'
 export const MIN_CHORD_INTERVAL = 'MIN_CHORD_INTERVAL'
